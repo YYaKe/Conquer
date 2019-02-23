@@ -69,12 +69,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.LoginActivity"></activity>
+        <activity android:name=".activity.LoginActivity"/>
         <activity
             android:name=".activity.DialogActivity"
-            android:theme="@style/MyDialog"></activity>
-        <activity android:name=".activity.MainActivity"></activity>
-        <activity android:name=".activity.AddFriendActivity"></activity>
+            android:theme="@style/MyDialog"/>
+        <activity android:name=".activity.MainActivity"/>
+        <activity android:name=".activity.AddFriendActivity"/>
         <activity
             android:name=".activity.AddTaskActivity"
             android:screenOrientation="portrait"
@@ -96,26 +96,26 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.TransparentActivity">
         </activity>
-        <activity android:name=".activity.AllMyTaskActivity"></activity>
-        <activity android:name=".activity.ChatActivity"></activity>
-        <activity android:name=".activity.SettingActivity"></activity>
-        <activity android:name=".activity.LocationActivity"></activity>
-        <activity android:name=".activity.FriendActivity"></activity>
-        <activity android:name=".activity.FriendDataActivity"></activity>
-        <activity android:name=".activity.BlackListActivity"></activity>
-        <activity android:name=".activity.MyHistoryActivity"></activity>
-        <activity android:name=".activity.MyPhotoActivity"></activity>
-        <activity android:name=".activity.PhotoGallery"></activity>
-        <activity android:name=".activity.SelectFriendActivity"></activity>
-        <activity android:name=".activity.NewFriendActivity"></activity>
-        <activity android:name=".activity.NearPeopleActivity"></activity>
-        <activity android:name=".activity.AboutActivity"></activity>
-        <activity android:name=".activity.EditMyInfoActivity"></activity>
-        <activity android:name=".activity.AlbumActivity"></activity>
+        <activity android:name=".activity.AllMyTaskActivity"/>
+        <activity android:name=".activity.ChatActivity" />
+        <activity android:name=".activity.SettingActivity" />
+        <activity android:name=".activity.LocationActivity" />
+        <activity android:name=".activity.FriendActivity" />
+        <activity android:name=".activity.FriendDataActivity" />
+        <activity android:name=".activity.BlackListActivity" />
+        <activity android:name=".activity.MyHistoryActivity" />
+        <activity android:name=".activity.MyPhotoActivity" />
+        <activity android:name=".activity.PhotoGallery"/>
+        <activity android:name=".activity.SelectFriendActivity" />
+        <activity android:name=".activity.NewFriendActivity" />
+        <activity android:name=".activity.NearPeopleActivity" />
+        <activity android:name=".activity.AboutActivity" />
+        <activity android:name=".activity.EditMyInfoActivity" />
+        <activity android:name=".activity.AlbumActivity" />
         <activity
             android:name=".activity.SelectPicActivity"
-            android:theme="@style/MyDialog"></activity>
-        <activity android:name=".activity.AlertActivity"></activity>
+            android:theme="@style/MyDialog"/>
+        <activity android:name=".activity.AlertActivity"/>
 
 
         <service android:name=".service.AlertService">

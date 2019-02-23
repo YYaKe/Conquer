@@ -16,7 +16,7 @@ public class Constants {
 	/**
 	 * QQ的key
 	 */
-	public static final String QQ_KEY = "1104571383";
+	public static final String QQ_KEY = "1108142585";
 	public static final String Weibo_KEY = "2309789244";
 
 	/**

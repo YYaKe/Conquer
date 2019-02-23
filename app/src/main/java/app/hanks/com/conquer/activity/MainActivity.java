@@ -98,8 +98,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Subscribe
     public void goUserData(MenuPhotoClickEvent event) {
-        if (drawerLayout.isDrawerOpen(Gravity.START)) {
-            drawerLayout.closeDrawer(Gravity.START);
+        if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+            drawerLayout.closeDrawer(Gravity.LEFT);
 //            A.goOtherActivity(context, UserDataActivity.class);
             userDataFlag = true;
         }
@@ -136,7 +136,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      */
     private void initDrawerMenu() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);// 侧滑控件
-        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
+        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.LEFT);
         drawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerStateChanged(int arg0) {
@@ -178,12 +178,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      * 切换侧滑菜单布局打开或关闭
      */
     public void toggle() {
-        if (drawerLayout.isDrawerOpen(Gravity.START)) {
-            drawerLayout.closeDrawer(Gravity.START);
+        if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+            drawerLayout.closeDrawer(Gravity.LEFT);
 //            materialMenu.animatePressedState(MaterialMenuDrawable.IconState.BURGER);
         } else {
 //            materialMenu.animatePressedState(MaterialMenuDrawable.IconState.X);
-            drawerLayout.openDrawer(Gravity.START);
+            drawerLayout.openDrawer(Gravity.LEFT);
         }
     }
 
