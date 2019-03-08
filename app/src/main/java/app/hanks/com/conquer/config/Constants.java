@@ -11,7 +11,7 @@ public class Constants {
 	/**
 	 * Bmob的key
 	 */
-	public static final String BMOB_KEY = "07f7169939ace706e5344bc8fea78b84";
+	public static final String BMOB_KEY = "913569cce4e092a100029804ab5b5062";
 
 	/**
 	 * QQ的key

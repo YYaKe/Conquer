@@ -155,7 +155,9 @@ public class UserDataActivity extends BaseActivity implements OnClickListener, O
 //            }
             String home = currentUser.getHomeBg();
 //            if (home != null && !homeUrl.equals(home)) {
-            loader.displayImage(home, iv_home_bg, option_pic);
+//            loader.displayImage(home, iv_home_bg, option_pic);
+            iv_home_bg.setBackgroundResource(R.drawable.pic_loading);
+
 //                homeUrl = home;
 //            }
             tv_nickname.setText(currentUser.getNick());
