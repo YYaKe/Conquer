@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import app.hanks.com.conquer.CustomApplication;
 import app.hanks.com.conquer.R;
 import app.hanks.com.conquer.bean.MaxNumber;
+import app.hanks.com.conquer.main.HomeActivity;
 import app.hanks.com.conquer.otto.BusProvider;
 import app.hanks.com.conquer.otto.FinishActivityEvent;
 import app.hanks.com.conquer.util.A;
@@ -40,6 +41,7 @@ import app.hanks.com.conquer.util.T;
 import cn.bmob.v3.BmobInstallation;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.GetListener;
+import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 
 public class DialogActivity extends BaseActivity {
@@ -70,9 +72,10 @@ public class DialogActivity extends BaseActivity {
                 ArrayList<String> list = new ArrayList<String>();
                 list.add("http://file.bmob.cn/M00/D6/4E/oYYBAFR9ZMuAI5HVAAAG8DKoaHY038.png");
                 currentUser.setAlbum(list);
-                currentUser.setMale((gender.equals("男") || gender.equals("m")) ? true : false);
+                currentUser.setMale(gender.equals("男") || gender.equals("m"));
                 L.i("用户绑定id");
-                bindUserName();
+                saveUserInfo();
+//                bindUserName();
             } else {
                 // 已经注册过了，更新用户信息去主界面(换个手机登录)
                 // 需要綁定设备Id
@@ -105,9 +108,24 @@ public class DialogActivity extends BaseActivity {
         userManager.bindInstallationForRegister(currentUser.getUsername());
         updateUserInfos();
         BusProvider.getInstance().post(new FinishActivityEvent());
-        A.goOtherActivityFinishNoAnim(context, MainActivity.class);
+        A.goOtherActivityFinishNoAnim(context, HomeActivity.class);
     }
 
+
+    private void saveUserInfo(){
+        currentUser.update(this, new UpdateListener() {
+            @Override
+            public void onSuccess() {
+                L.i("onSuccess:update user");
+                goMainActivity();
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                L.e("onFailure:update user");
+            }
+        });
+    }
 
     private void bindUserName() {
         /** 从服务器获取一个可用的用户名 */

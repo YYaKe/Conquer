@@ -139,9 +139,10 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
 
-                <data android:scheme="tencent1104571383"/>
+                <data android:scheme="tencent1108142585"/>
             </intent-filter>
         </activity>
+        <activity android:name=".main.HomeActivity" />
 
         <!-- baidu map -->
         <meta-data

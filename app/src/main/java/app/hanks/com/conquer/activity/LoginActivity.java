@@ -43,6 +43,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import app.hanks.com.conquer.R;
+import app.hanks.com.conquer.bean.Tag;
 import app.hanks.com.conquer.config.Constants;
 import app.hanks.com.conquer.otto.BusProvider;
 import app.hanks.com.conquer.otto.FinishActivityEvent;
@@ -76,10 +77,86 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         setFullScreen();
         findViewById(R.id.bt_qq).setOnClickListener(this);
-        findViewById(R.id.bt_sina).setOnClickListener(this);
         BusProvider.getInstance().register(this); //registe Bus
         bindViews();
         showAnim();
+    }
+
+
+    @Override
+    protected View getContentView() {
+        return View.inflate(context, R.layout.activity_login, null);
+    }
+
+    @Override
+    protected void initTitleBar(ViewGroup rl_title, TextView tv_title, ImageButton ib_back, ImageButton ib_right, View shadow) {
+        tv_title.setText(getString(R.string.login));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        BusProvider.getInstance().unregister(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (mSsoHandler != null) {
+            mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.bt_qq:
+                LoginQQ();
+                break;
+        }
+    }
+
+    @Override
+    public void onComplete(Object o) {
+
+        try {
+            JSONObject jsonObject = new JSONObject(o.toString());
+            L.i(jsonObject.toString());
+            String userId = jsonObject.getString("openid");
+            String expiresIn = jsonObject.getString("expires_in");
+            String accessToken = jsonObject.getString("access_token");
+            BmobUser.BmobThirdUserAuth authInfo = new BmobUser.BmobThirdUserAuth("qq", accessToken, expiresIn, userId);
+            BmobUser.loginWithAuthData(context, authInfo, new OtherLoginListener() {
+
+                @Override
+                public void onSuccess(JSONObject userAuth) {
+                    L.i("QQ授权成功去校验" + userAuth.toString());
+                    getQQInfo(userAuth);
+                }
+
+                @Override
+                public void onFailure(int code, String msg) {
+                    // TODO Auto-generated method stub
+                    Log.i("smile", "第三方登陆失败：" + msg);
+                }
+
+            });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onError(UiError uiError) {
+        L.i("QQ第三方登陆失败：" + uiError.errorMessage);
+        T.show(context, "QQ授权失败");
+    }
+
+    @Override
+    public void onCancel() {
+        L.i("QQ第三方登陆取消");
+        T.show(context, "QQ授权取消");
     }
 
     /**
@@ -121,138 +198,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     }
 
-    @Override
-    protected View getContentView() {
-        return View.inflate(context, R.layout.activity_login, null);
-    }
-
-    @Override
-    protected void initTitleBar(ViewGroup rl_title, TextView tv_title, ImageButton ib_back, ImageButton ib_right, View shadow) {
-        tv_title.setText(getString(R.string.login));
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        BusProvider.getInstance().unregister(this);
-    }
-
-    @Subscribe
-    public void onFinishListen(FinishActivityEvent event) {
-        L.i("finish");
-        event.finish(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.bt_qq:
-                LoginQQ();
-                break;
-            case R.id.bt_sina:
-                LoginSina();
-                break;
-        }
-    }
-
     /**
      * QQ授权登录
      */
     private void LoginQQ() {
         Tencent mTencent = Tencent.createInstance(Constants.QQ_KEY, this.getApplicationContext());
         mTencent.login(this, "all", this);
-    }
-
-    /**
-     * 新浪授权登录
-     */
-    private void LoginSina() {
-        WeiboAuth  mAuthInfo = new WeiboAuth(this, Constants.Weibo_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
-       mSsoHandler  = new SsoHandler(LoginActivity.this, mAuthInfo);
-        mSsoHandler.authorize(new AuthListener());
-
-
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (mSsoHandler != null) {
-            mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
-        }
-    }
-    class AuthListener  implements WeiboAuthListener {
-
-        @Override
-        public void onComplete(Bundle values) {
-            // 从 Bundle 中解析 Token
-            Oauth2AccessToken mAccessToken = Oauth2AccessToken.parseAccessToken(values);
-            if (mAccessToken.isSessionValid()) {
-                // 保存 Token 到 SharedPreferences
-                L.i("weibo授权成功去校验" + mAccessToken.toString());
-                BmobUser.BmobThirdUserAuth authInfo = new BmobUser.BmobThirdUserAuth("weibo", mAccessToken.getToken(), mAccessToken.getExpiresTime()+"", mAccessToken.getUid());
-                BmobUser.loginWithAuthData(context, authInfo, new OtherLoginListener() {
-                    @Override
-                    public void onSuccess(JSONObject userAuth) {
-                        L.i("weibo授权成功去校验" + userAuth.toString());
-                        getWeiboInfo(userAuth);
-                    }
-
-                    @Override
-                    public void onFailure(int code, String msg) {
-                        // TODO Auto-generated method stub
-                        Log.i("smile", "第三方登陆失败：" + msg);
-                    }
-
-                });
-
-            } else {
-                // 当您注册的应用程序签名不正确时，就会收到 Code，请确保签名正确
-                String code = values.getString("code", "");
-
-            }
-        }
-
-        @Override
-        public void onCancel() { L.i("weibo第三方登陆取消");
-            T.show(context, "weibo授权取消");
-        }
-
-        @Override
-        public void onWeiboException(WeiboException e) {
-            L.i("weibo第三方登陆失败：" + e);
-            T.show(context, "weibo授权失败");
-        }
-    }
-
-
-    /**
-     * 获取微博的资料
-     */
-    public void getWeiboInfo(final JSONObject obj) {
-        // 根据http://open.weibo.com/wiki/2/users/show提供的API文档
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    Map<String, String> params = new HashMap<String, String>();
-                    if (obj != null) {
-                        params.put("access_token", obj.getJSONObject("weibo").getString("access_token"));// 此为微博登陆成功之后返回的access_token
-                        params.put("uid", obj.getJSONObject("weibo").getString("uid"));// 此为微博登陆成功之后返回的uid
-                    }
-                    String result = NetUtils.getRequest("https://api.weibo.com/2/users/show.json", params);
-                    L.i("微博的个人信息：" + result);
-                    JSONObject json = new JSONObject(result);
-                    nickName = json.getString("screen_name");
-                    gender = json.getString("gender");
-                    photoUrl = json.getString("avatar_large").replace("\\", "");
-                    city = json.getString("location");
-                    goDialogActivity();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }.start();
     }
 
     /**
@@ -275,12 +226,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     // }
                     // }
                     if (obj != null) {
-                        // params.put("access_token", obj.getJSONObject("qq")
-                        // .getString("access_token"));//
-                        // 此为微博登陆成功之后返回的access_token
-                        // params.put("uid",
-                        // obj.getJSONObject("weibo").getString("uid"));//
-                        // 此为微博登陆成功之后返回的uid
                         params.put("access_token", obj.getJSONObject("qq").getString("access_token"));// 此为QQ登陆成功之后返回access_token
                         params.put("openid", obj.getJSONObject("qq").getString("openid"));
                         params.put("oauth_consumer_key", Constants.QQ_KEY);// oauth_consumer_key为申请QQ登录成功后，分配给应用的appid
@@ -313,45 +258,4 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         A.goOtherActivityNoAnim(context, i);
     }
 
-    @Override
-    public void onComplete(Object o) {
-
-        try {
-            JSONObject jsonObject = new JSONObject(o.toString());
-            String userId = jsonObject.getString("openid");
-            String expiresIn= jsonObject.getString("expires_in");
-            String accessToken = jsonObject.getString("access_token");
-            BmobUser.BmobThirdUserAuth authInfo = new BmobUser.BmobThirdUserAuth("qq", accessToken, expiresIn, userId);
-            BmobUser.loginWithAuthData(context, authInfo, new OtherLoginListener() {
-
-                @Override
-                public void onSuccess(JSONObject userAuth) {
-                    L.i("QQ授权成功去校验" + userAuth.toString());
-                    getQQInfo(userAuth);
-                }
-
-                @Override
-                public void onFailure(int code, String msg) {
-                    // TODO Auto-generated method stub
-                    Log.i("smile", "第三方登陆失败：" + msg);
-                }
-
-            });
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onError(UiError uiError) {
-        L.i("QQ第三方登陆失败：" + uiError.errorMessage);
-        T.show(context, "QQ授权失败");
-    }
-
-    @Override
-    public void onCancel() {
-        L.i("QQ第三方登陆取消");
-        T.show(context, "QQ授权取消");
-    }
 }
