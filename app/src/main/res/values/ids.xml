@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item type="id" name="done"/>
-    <item type="id" name="date_picker_header"/>
-    <item type="id" name="day_picker_selected_date_layout"/>
-    <item type="id" name="date_picker_month_and_day"/>
-    <item type="id" name="date_picker_month"/>
-    <item type="id" name="date_picker_day"/>
-    <item type="id" name="date_picker_year"/>
-    <item type="id" name="animator"/>
-    <item type="id" name="month_text_view"/>
+    <item name="done" type="id" />
+    <item name="date_picker_header" type="id" />
+    <item name="day_picker_selected_date_layout" type="id" />
+    <item name="date_picker_month_and_day" type="id" />
+    <item name="date_picker_month" type="id" />
+    <item name="date_picker_day" type="id" />
+    <item name="date_picker_year" type="id" />
+    <item name="animator" type="id" />
+    <item name="month_text_view" type="id" />
+    <item name="text_view" type="id" />
+    <item name="tvTitle" type="id"/>
+    <item name="line" type="id"/>
+    <item name="linear_layout" type="id"/>
+    <item name="text" type="id"/>
+    <item name="imgPriority" type="id"/>
 </resources>

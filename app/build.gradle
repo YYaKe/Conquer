@@ -63,6 +63,7 @@ repositories {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:22.1.1'
+    implementation "com.android.support.constraint:constraint-layout:$constraint"
     //以下SDK开发者请根据需要自行选择
     //bmob-sdk ：Bmob的android sdk包
     implementation 'cn.bmob.android:bmob-sdk:3.4.3'
@@ -94,6 +95,12 @@ dependencies {
     implementation('org.robobinding:robobinding:0.8.9:with-aop-and-dependencies') {
         exclude group: 'com.google.guava', module: 'guava'
     }
+    //https://github.com/CymChad/BaseRecyclerViewAdapterHelper
+    implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:$adapterHelper"
+    //checkbox
+    implementation "com.github.xujiaji:ripple-checkbox:$rippleCheckbox"
+
+
 //    aspectPath("org.robobinding:robobinding:0.8.9:with-aop-and-dependencies") {
 //        exclude group: 'com.google.guava', module: 'guava'
 //    }

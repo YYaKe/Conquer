@@ -19,6 +19,7 @@ import app.hanks.com.conquer.R;
 import app.hanks.com.conquer.config.Constants;
 import app.hanks.com.conquer.location.LocationInfo;
 import app.hanks.com.conquer.location.LocationService;
+import app.hanks.com.conquer.main.HomeActivity;
 import app.hanks.com.conquer.service.AlertService;
 import app.hanks.com.conquer.util.A;
 import app.hanks.com.conquer.util.L;
@@ -112,7 +113,7 @@ public class SplashActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case GO_HOME:
-                    A.goOtherActivityFinish(context, MainActivity.class);
+                    A.goOtherActivityFinish(context, HomeActivity.class);
                     break;
                 case GO_LOGIN:
                     int[] location = new int[2];

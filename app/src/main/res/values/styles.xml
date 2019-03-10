@@ -7,6 +7,8 @@
         <item name="colorPrimary">@color/theme_0</item>
         <item name="colorPrimaryDark">@color/theme_0</item>
         <item name="colorAccent">@color/style_color_accent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="AppTheme.TransparentActivity">
