@@ -76,5 +76,6 @@
     <string name="two_exit">再按一次退出</string>
     <string name="recording">正在录音</string>
     <string name="login_qq">QQ登录</string>
+    <string name="example_eat">例如，吃饭</string>
 
 </resources>

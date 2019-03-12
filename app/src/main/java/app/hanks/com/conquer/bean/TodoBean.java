@@ -8,7 +8,7 @@ import cn.bmob.v3.BmobObject;
  * author：wiki on 2019/3/10
  * email：zhengweiqunemail@qq.com
  */
-public  class TodoBean extends BmobObject{
+public class TodoBean extends BmobObject {
     /**
      * completeDate : null
      * completeDateStr :

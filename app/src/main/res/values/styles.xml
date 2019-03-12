@@ -11,6 +11,8 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="dialog_style" parent="Base.Theme.AppCompat.Light.Dialog" />
+
     <style name="AppTheme.TransparentActivity">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
@@ -31,8 +33,6 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
     <style name="TransparentActivity" parent="android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
@@ -41,8 +41,6 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:backgroundDimEnabled">false</item>
-        <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
 
     <style name="MyDialogAnimation">
@@ -296,7 +294,7 @@
         <item name="floatValue">1.44</item>
         <item name="integerValue">55</item>
         <item name="booleanValue">false</item>
-        <item name="dimensionValue">76px</item>
+        <item name="dimensionValue">76dp</item>
         <item name="stringValue">@string/action_settings</item>
         <item name="referenceValue">@drawable/ic_launcher</item>
     </style>
@@ -306,7 +304,7 @@
         <item name="floatValue">1.44</item>
         <item name="integerValue">55</item>
         <item name="booleanValue">false</item>
-        <item name="dimensionValue">76px</item>
+        <item name="dimensionValue">76dp</item>
         <item name="stringValue">@string/action_settings</item>
         <item name="referenceValue">@drawable/ic_launcher</item>
     </style>
@@ -316,7 +314,7 @@
         <item name="floatValue">1.44</item>
         <item name="integerValue">55</item>
         <item name="booleanValue">false</item>
-        <item name="dimensionValue">76px</item>
+        <item name="dimensionValue">76dp</item>
         <item name="stringValue">@string/action_settings</item>
         <item name="referenceValue">@drawable/ic_launcher</item>
     </style>

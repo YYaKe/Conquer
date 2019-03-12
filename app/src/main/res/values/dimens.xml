@@ -1,5 +1,6 @@
 <resources>
 
+    <dimen name="actionBarSize">56dp</dimen>
     <dimen name="done_label_size">14sp</dimen>
     <dimen name="date_picker_component_width">270dip</dimen>
     <dimen name="date_picker_header_height">30dip</dimen>
