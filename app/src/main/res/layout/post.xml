@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rootContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,6 +25,14 @@
             android:scaleType="center"
             android:src="@drawable/ic_back" />
 
+        <TextView
+            android:id="@+id/tvDateTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:padding="@dimen/dp_10"
+            tools:text="2019/03/15" />
+
     </FrameLayout>
 
     <EditText
@@ -36,8 +45,8 @@
         android:inputType="text"
         android:lines="1"
         android:maxLines="1"
-        android:paddingTop="@dimen/spacing_middle2"
         android:paddingStart="@dimen/spacing_middle2"
+        android:paddingTop="@dimen/spacing_middle2"
         android:paddingEnd="@dimen/spacing_middle2"
         android:singleLine="true"
         app:layout_constraintBottom_toTopOf="@id/linearLayout"
