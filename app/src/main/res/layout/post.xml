@@ -83,7 +83,7 @@
                 android:layout_toEndOf="@id/btnChooseCalendar"
                 android:layout_toRightOf="@id/btnChooseCalendar"
                 android:scaleType="center"
-                android:src="@drawable/ic_todo_type_list" />
+                android:src="@drawable/ic_todo_type" />
 
             <ImageView
                 android:id="@+id/btnPriority"

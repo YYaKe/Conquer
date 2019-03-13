@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rgGroup"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RadioButton
+        android:id="@+id/rbPriorityUrgentImportant"
+        android:text="@string/urgent_important"
+        style="@style/style_rb_choose_priority"
+        android:background="@drawable/rb_priority_1" />
+
+    <RadioButton
+        android:id="@+id/rbPriorityImportantNotUrgent"
+        style="@style/style_rb_choose_priority"
+        android:text="@string/important_not_urgent"
+        android:background="@drawable/rb_priority_2" />
+
+    <RadioButton
+        android:id="@+id/rbPriorityUrgentNotImportant"
+        style="@style/style_rb_choose_priority"
+        android:text="@string/urgent_not_important"
+        android:background="@drawable/rb_priority_3" />
+
+    <RadioButton
+        android:id="@+id/rbPriorityNotUrgentNotImportant"
+        style="@style/style_rb_choose_priority"
+        android:text="@string/not_urgent_not_important"
+        android:background="@drawable/rb_priority_4"
+        android:checked="true"/>
+
+</RadioGroup>

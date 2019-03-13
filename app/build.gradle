@@ -1,4 +1,4 @@
-buildscript{
+buildscript {
 
 //    repositories{
 //        mavenCentral()
@@ -16,7 +16,7 @@ buildscript{
 apply plugin: 'com.android.application'
 //apply plugin: 'org.robobinding.android-aspectj'
 
-buildscript{
+buildscript {
     repositories {
         mavenCentral()
         google()
@@ -99,7 +99,8 @@ dependencies {
     implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:$adapterHelper"
     //checkbox
     implementation "com.github.xujiaji:ripple-checkbox:$rippleCheckbox"
-
+    //BubbleDialog-gravity
+    implementation "com.github.xujiaji:happy-bubble:$happyBubble"
 
 //    aspectPath("org.robobinding:robobinding:0.8.9:with-aop-and-dependencies") {
 //        exclude group: 'com.google.guava', module: 'guava'

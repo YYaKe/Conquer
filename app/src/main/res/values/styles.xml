@@ -1,6 +1,6 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="AppBaseTheme" parent="android:Theme.Light"></style>
+    <style name="AppBaseTheme" parent="android:Theme.Light"/>
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -34,6 +34,7 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
+
     <style name="TransparentActivity" parent="android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
@@ -350,4 +351,12 @@
         <item name="android:textColorHighlight">@color/red_button</item>
         <item name="android:textSize">12sp</item>
     </style>
+
+    <style name="style_rb_choose_priority">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:button">@null</item>
+    </style>
+
 </resources>

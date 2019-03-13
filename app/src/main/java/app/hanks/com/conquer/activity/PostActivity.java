@@ -1,18 +1,21 @@
 package app.hanks.com.conquer.activity;
 
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import com.xujiaji.happybubble.BubbleDialog;
+
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 import app.hanks.com.conquer.R;
 import app.hanks.com.conquer.base.BaseActivity;
 import app.hanks.com.conquer.bean.TodoBean;
+import app.hanks.com.conquer.helper.BubbleCreator;
 import app.hanks.com.conquer.util.L;
 import app.hanks.com.conquer.util.T;
 import app.hanks.com.conquer.view.datetime.datepicker.DatePickerDialog;
@@ -29,9 +32,14 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     private final Calendar mCalendar = Calendar.getInstance();
     private TimePickerDialog timePickerDialog24h;
     private DatePickerDialog datePickerDialog;
+    private BubbleDialog mBubbleDialog;
+    private BubbleDialog mChoosePriorityDialog;
     //---UIView
     private EditText etInput;
     private TextView tvDateTime;
+    private ImageView imgCalendar;
+    private ImageView imgType;
+    private ImageView imgPriority;
 
     @Override
     protected void initView() {
@@ -43,6 +51,9 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.btnOk).setOnClickListener(this);
         etInput = (EditText) findViewById(R.id.etInput);
         tvDateTime = (TextView) findViewById(R.id.tvDateTime);
+        imgType = (ImageView) findViewById(R.id.btnTypeList);
+        imgPriority = (ImageView) findViewById(R.id.btnPriority);
+        imgCalendar = (ImageView) findViewById(R.id.btnChooseCalendar);
 
         initDatePicker();
     }
@@ -57,8 +68,10 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                 datePickerDialog.show(getFragmentManager(), "");
                 break;
             case R.id.btnTypeList://类型
+                showChooseTodoCategory();
                 break;
             case R.id.btnPriority://优先级
+                showChoosePriority();
                 break;
             case R.id.btnOk:
                 TodoBean bean = new TodoBean(1222, "", "3.15日，中期检查",
@@ -85,14 +98,10 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
      */
     private void initDatePicker() {
         mCalendar.add(Calendar.MINUTE, 60);// 设成60分钟后
-//        setTimeAndTip(new SimpleDateFormat("yyyy/MM/dd", Locale.CHINA).format(mCalendar.getTime()) + " "
-//                + pad(mCalendar.get(Calendar.HOUR_OF_DAY)) + ":" + pad(mCalendar.get(Calendar.MINUTE)));
-
         timePickerDialog24h = TimePickerDialog.newInstance(new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-//                tvDateTime.setText(new StringBuffer().append(tvDateTime.getText()).append(" ").
-//                        append(pad(hourOfDay)).append(":").append(pad(minute)));
+                imgCalendar.setColorFilter(getResources().getColor(R.color.pink_200));
                 setTimeAndTip(tvDateTime.getText() + " " + pad(hourOfDay) + ":" + pad(minute));
             }
         }, mCalendar.get(Calendar.HOUR_OF_DAY), mCalendar.get(Calendar.MINUTE), true);
@@ -110,6 +119,9 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         datePickerDialog.setYearRange(curYear, mCalendar.get(Calendar.MONTH) >= 11 ? curYear + 1 : curYear);
     }
 
+    /**
+     * int < 10 ,在前面+0
+     */
     private String pad(int c) {
         if (c >= 10)
             return String.valueOf(c);
@@ -118,20 +130,85 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     }
 
     /**
-     * 设置tv_time 和 tv_time_tip的文本内容
+     * 设置tvDateTime的文本内容
      *
      * @param string 类似yyyy/MM/dd HH:mm
      */
     private void setTimeAndTip(String string) {
         tvDateTime.setText(string);
-//        tvDateTime.setText(string.substring(string.length() - 5, string.length()));
-        try {
-            Date d = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.CHINA).parse(string);
-//            tv_time_tip.setTextColor(d.getTime() > System.currentTimeMillis() ? Color.GRAY : Color.RED);
-//            tv_time_tip.setText("(" + TaskUtil.getDescriptionTimeFromTimestamp(d.getTime()) + ")");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
     }
+
+    public void showChooseTodoCategory() {
+        if (mBubbleDialog == null) {
+            View view = LayoutInflater.from(this).inflate(R.layout.layout_choose_category, null);
+            mBubbleDialog = new BubbleDialog(this)
+                    .setPosition(BubbleDialog.Position.TOP)
+                    .setBubbleLayout(BubbleCreator.get(this))
+                    .addContentView(view);
+            RadioGroup group = (RadioGroup) view.findViewById(R.id.rgGroup);
+            group.check(R.id.rbUseOne);
+            group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    mBubbleDialog.dismiss();
+                    imgType.setColorFilter(getResources().getColor(R.color.blue_300));
+                    switch (checkedId) {
+                        case R.id.rbUseOne:
+                            break;
+                        case R.id.rbWork:
+                            break;
+                        case R.id.rbLearn:
+                            break;
+                        case R.id.rbLife:
+                            break;
+                    }
+                }
+            });
+        }
+
+        mBubbleDialog.setClickedView(imgType);
+        mBubbleDialog.show();
+
+        if (mBubbleDialog.getWindow() != null)
+            mBubbleDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+    }
+
+    public void showChoosePriority() {
+        if (mChoosePriorityDialog == null) {
+            View view = LayoutInflater.from(this).inflate(R.layout.layout_choose_priority, null);
+            mChoosePriorityDialog = new BubbleDialog(this)
+                    .setPosition(BubbleDialog.Position.TOP)
+                    .addContentView(view)
+                    .setBubbleLayout(BubbleCreator.get(this));
+            RadioGroup group = (RadioGroup) view.findViewById(R.id.rgGroup);
+            group.check(R.id.rbPriorityNotUrgentNotImportant);
+            group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    switch (checkedId) {
+                        case R.id.rbPriorityUrgentImportant:
+                            imgPriority.setColorFilter(getResources().getColor(R.color.red_800));
+                            break;
+                        case R.id.rbPriorityImportantNotUrgent:
+                            imgPriority.setColorFilter(getResources().getColor(R.color.orange_800));
+                            break;
+                        case R.id.rbPriorityUrgentNotImportant:
+                            imgPriority.setColorFilter(getResources().getColor(R.color.yellow_800));
+                            break;
+                        case R.id.rbPriorityNotUrgentNotImportant:
+                            imgPriority.setColorFilter(getResources().getColor(R.color.grey_500));
+                            break;
+                    }
+                    mChoosePriorityDialog.dismiss();
+                }
+            });
+        }
+        mChoosePriorityDialog.setClickedView(imgPriority);
+        mChoosePriorityDialog.show();
+
+        if (mChoosePriorityDialog.getWindow() != null)
+            mChoosePriorityDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+    }
+
 
 }
