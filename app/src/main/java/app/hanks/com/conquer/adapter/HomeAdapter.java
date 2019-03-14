@@ -5,17 +5,23 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.xujiaji.library.RippleCheckBox;
+import com.xujiaji.library.RippleCheckBoxUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import app.hanks.com.conquer.R;
 import app.hanks.com.conquer.bean.ListType;
+import app.hanks.com.conquer.bean.TodoBean;
 import app.hanks.com.conquer.bean.TodoListBean;
+import app.hanks.com.conquer.config.Constants;
+import app.hanks.com.conquer.util.L;
 
 /**
  * author：wiki on 2019/3/10
@@ -23,9 +29,6 @@ import app.hanks.com.conquer.bean.TodoListBean;
  */
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
-    public static final int TYPE_TODO_TYPE = 0;
-    public static final int TYPE_TODO_DATE = 1;
-    public static final int TYPE_TODO = 2;
 
     private List<TodoListBean> mList;
     private Context context;
@@ -33,10 +36,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     public HomeAdapter() {
         mList = new ArrayList<>();
-    }
-
-    public HomeAdapter(List<TodoListBean> mList) {
-        this.mList = mList;
     }
 
     static class ViewHolder extends BaseViewHolder {
@@ -48,7 +47,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         public ViewHolder(View view) {
             super(view);
             titleTv = (TextView) view.findViewById(R.id.tvTitle);
-            lineView = view.findViewById(R.layout.line);
+            lineView = view.findViewById(R.id.line);
             linearLayout = (LinearLayout) view.findViewById(R.id.linear_layout);
         }
     }
@@ -61,12 +60,60 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.titleTv.setText(ListType.getName(mList.get(position).getType()));
-        for (int i = 0; i < mList.get(position).getList().size(); i++) {
+        holder.lineView.setBackgroundColor(context.getResources().getColor(mList.get(position).getType()
+                == Constants.TO_DO ? R.color.purple_500 : R.color.grey_800));
+        List<TodoBean> beanList = mList.get(position).getList();
+        for (int i = 0; i < beanList.size(); i++) {
+            L.i("beanList-size:" + beanList.size());
             View view = LayoutInflater.from(context).inflate(R.layout.item_todo, null);
-            TextView contentTv = (TextView) view.findViewById(R.id.text);
-            contentTv.setText(mList.get(position).getList().get(i).getContent());
+            final TextView contentTv = (TextView) view.findViewById(R.id.text);
+            final View line = view.findViewById(R.id.line);
+            ImageView priorityImg = (ImageView) view.findViewById(R.id.imgPriority);
+            RippleCheckBox checkBox = (RippleCheckBox) view.findViewById(R.id.rippleCheckBox);
+            contentTv.setText(beanList.get(i).getContent());
+            checkBox.setOnCheckedChangeListener(new RippleCheckBox.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RippleCheckBox checkBox, boolean isChecked) {
+                    if (isChecked) {
+                        //动画效果，横线上移，文字alpha为0.3
+                        line.animate()
+                                .setDuration(400)
+                                .translationY(-(RippleCheckBoxUtil.dp2px(context, 12) + contentTv.getHeight() / 2))
+                                .start();
+                        contentTv.animate()
+                                .setDuration(400)
+                                .alpha(0.3F)
+                                .start();
+                    } else {
+                        line.animate()
+                                .setDuration(400)
+                                .translationY(0)
+                                .start();
+                        contentTv.animate()
+                                .setDuration(400)
+                                .alpha(1F)
+                                .start();
+                    }
+                }
+            });
+            switch (beanList.get(i).getPriority()) {
+                case Constants.URGENT_IMPROTANT://紧急重要
+                    priorityImg.setColorFilter(context.getResources().getColor(R.color.red_800));
+                    break;
+                case Constants.IMPROTANT_NOT_URGENT://重要不紧急
+                    priorityImg.setColorFilter(context.getResources().getColor(R.color.orange_800));
+                    break;
+                case Constants.URGETN_NOT_IMPORTANT://紧急不重要
+                    priorityImg.setColorFilter(context.getResources().getColor(R.color.yellow_800));
+                    break;
+                case Constants.NOT_URGENT_NOT_IMPORTANT://不重要不紧急
+                    priorityImg.setColorFilter(context.getResources().getColor(R.color.grey_500));
+                    break;
+                default:
+                    break;
+            }
             holder.linearLayout.addView(view);
         }
     }

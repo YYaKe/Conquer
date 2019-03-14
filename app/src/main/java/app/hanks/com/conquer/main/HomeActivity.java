@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import app.hanks.com.conquer.R;
@@ -33,7 +32,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private FloatingActionButton mFab;
 
     private HomeAdapter homeAdapter;
-    private List<TodoListBean> todoListBeans = new ArrayList<>();
 
     private int mCategory;
 
@@ -48,7 +46,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
         mFab.setOnClickListener(this);
 
-        homeAdapter = new HomeAdapter(todoListBeans);
+        homeAdapter = new HomeAdapter();
         recyclerView.setAdapter(homeAdapter);
 
     }
