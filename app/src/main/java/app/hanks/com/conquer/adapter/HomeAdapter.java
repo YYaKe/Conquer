@@ -65,6 +65,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         holder.lineView.setBackgroundColor(context.getResources().getColor(mList.get(position).getType()
                 == Constants.TO_DO ? R.color.purple_500 : R.color.grey_800));
         List<TodoBean> beanList = mList.get(position).getList();
+        holder.linearLayout.removeAllViews();
         for (int i = 0; i < beanList.size(); i++) {
             L.i("beanList-size:" + beanList.size());
             View view = LayoutInflater.from(context).inflate(R.layout.item_todo, null);
@@ -124,6 +125,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     }
 
     public void addList(List<TodoListBean> listBeans) {
+        this.mList.clear();
         this.mList = listBeans;
         notifyDataSetChanged();
     }
