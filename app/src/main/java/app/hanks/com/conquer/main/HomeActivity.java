@@ -14,7 +14,6 @@ import app.hanks.com.conquer.R;
 import app.hanks.com.conquer.activity.PostActivity;
 import app.hanks.com.conquer.adapter.HomeAdapter;
 import app.hanks.com.conquer.base.BaseActivity;
-import app.hanks.com.conquer.bean.TodoBean;
 import app.hanks.com.conquer.bean.TodoListBean;
 import app.hanks.com.conquer.util.L;
 import cn.bmob.v3.BmobQuery;
@@ -49,20 +48,15 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
         mFab.setOnClickListener(this);
 
-        //---测试数据----
-        List<TodoBean> listBeans = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            listBeans.add(new TodoBean(1222, "", i + "--毕业设计",
-                    0, "", 0, 1, "", 1, 1, 1));
-        }
-        for (int i = 0; i < 3; i++) {
-            todoListBeans.add(new TodoListBean(1, listBeans));
-        }
-        //---测试数据----
         homeAdapter = new HomeAdapter(todoListBeans);
         recyclerView.setAdapter(homeAdapter);
-        findToDoList();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        findToDoList();
     }
 
     private void findToDoList() {

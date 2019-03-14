@@ -41,11 +41,11 @@ public class TodoBean extends BmobObject {
     @SerializedName("type")
     private int type;
     @SerializedName("userId")
-    private int userId;
+    private String userId;
     @SerializedName("priority")
     private int priority;
 
-    public TodoBean(long completeDate, String completeDateStr, String content, long date, String dateStr, int id, int status, String title, int type, int userId, int priority) {
+    public TodoBean(long completeDate, String completeDateStr, String content, long date, String dateStr, int id, int status, String title, int type, String userId, int priority) {
         this.completeDate = completeDate;
         this.completeDateStr = completeDateStr;
         this.content = content;
@@ -139,11 +139,11 @@ public class TodoBean extends BmobObject {
         this.type = type;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

@@ -56,5 +56,20 @@ public class Constants {
 	public static final int MAIN_MYZIXI_LIMIT = 4;
 	public static final String SP_SORT = "sort";
 	public static final String COURSE_DB_NAME = "kecheng";
+	/**
+	 * 优先级
+	 */
+	public static final int URGENT_IMPROTANT = 1;//紧急重要
+	public static final int IMPROTANT_NOT_URGENT = 2;//重要不紧急
+	public static final int URGETN_NOT_IMPORTANT = 3;//紧急不重要
+	public static final int NOT_URGENT_NOT_IMPORTANT = 4;//不紧急不重要
+	/**
+	 * 清单类型
+	 */
+	public static final int USER_ONE = 1;//z只用这一个
+	public static final int WORK = 2;//工作
+	public static final int LEARN = 3;//学习
+	public static final int LIFE = 4;//生活
+
 
 }

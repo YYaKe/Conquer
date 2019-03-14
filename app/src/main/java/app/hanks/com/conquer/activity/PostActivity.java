@@ -10,17 +10,23 @@ import android.widget.TextView;
 
 import com.xujiaji.happybubble.BubbleDialog;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import app.hanks.com.conquer.R;
 import app.hanks.com.conquer.base.BaseActivity;
 import app.hanks.com.conquer.bean.TodoBean;
+import app.hanks.com.conquer.bean.TodoListBean;
+import app.hanks.com.conquer.bean.User;
+import app.hanks.com.conquer.config.Constants;
 import app.hanks.com.conquer.helper.BubbleCreator;
 import app.hanks.com.conquer.util.L;
 import app.hanks.com.conquer.util.T;
 import app.hanks.com.conquer.view.datetime.datepicker.DatePickerDialog;
 import app.hanks.com.conquer.view.datetime.timepicker.RadialPickerLayout;
 import app.hanks.com.conquer.view.datetime.timepicker.TimePickerDialog;
+import cn.bmob.im.bean.BmobChatUser;
 import cn.bmob.v3.listener.SaveListener;
 
 /**
@@ -34,6 +40,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     private DatePickerDialog datePickerDialog;
     private BubbleDialog mBubbleDialog;
     private BubbleDialog mChoosePriorityDialog;
+    private int priority = 0;
+    private int toDoType = 0;
     //---UIView
     private EditText etInput;
     private TextView tvDateTime;
@@ -74,12 +82,18 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                 showChoosePriority();
                 break;
             case R.id.btnOk:
-                TodoBean bean = new TodoBean(1222, "", "3.15日，中期检查",
-                        0, "", 0, 1, "毕设", 1, 1, 1);
-                bean.save(this, new SaveListener() {
+                TodoBean bean = new TodoBean(0, tvDateTime.getText().toString(), etInput.getText().toString(),
+                        0, tvDateTime.getText().toString(), 0, 1, "", toDoType,
+                        BmobChatUser.getCurrentUser(this, User.class).getObjectId()
+                        , priority);
+                List<TodoBean> beanList = new ArrayList<>(1);
+                beanList.add(bean);
+                TodoListBean todoListBean = new TodoListBean(1, beanList);
+                todoListBean.save(this, new SaveListener() {
                     @Override
                     public void onSuccess() {
                         L.i("post success");
+                        T.show(PostActivity.this, "添加成功");
                         finish();
                     }
 
@@ -154,12 +168,16 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                     imgType.setColorFilter(getResources().getColor(R.color.blue_300));
                     switch (checkedId) {
                         case R.id.rbUseOne:
+                            toDoType = Constants.USER_ONE;
                             break;
                         case R.id.rbWork:
+                            toDoType = Constants.WORK;
                             break;
                         case R.id.rbLearn:
+                            toDoType = Constants.LEARN;
                             break;
                         case R.id.rbLife:
+                            toDoType = Constants.LIFE;
                             break;
                     }
                 }
@@ -187,15 +205,19 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
                     switch (checkedId) {
                         case R.id.rbPriorityUrgentImportant:
+                            priority = Constants.URGENT_IMPROTANT;
                             imgPriority.setColorFilter(getResources().getColor(R.color.red_800));
                             break;
                         case R.id.rbPriorityImportantNotUrgent:
+                            priority = Constants.IMPROTANT_NOT_URGENT;
                             imgPriority.setColorFilter(getResources().getColor(R.color.orange_800));
                             break;
                         case R.id.rbPriorityUrgentNotImportant:
+                            priority = Constants.URGETN_NOT_IMPORTANT;
                             imgPriority.setColorFilter(getResources().getColor(R.color.yellow_800));
                             break;
                         case R.id.rbPriorityNotUrgentNotImportant:
+                            priority = Constants.NOT_URGENT_NOT_IMPORTANT;
                             imgPriority.setColorFilter(getResources().getColor(R.color.grey_500));
                             break;
                     }
