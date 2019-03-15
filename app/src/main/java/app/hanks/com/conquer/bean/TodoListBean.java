@@ -12,6 +12,13 @@ public class TodoListBean extends BmobObject {
 
     private int type;
     private List<TodoBean> list;
+    private List<FinishBean> finishBeans;
+
+    public TodoListBean(int type, List<TodoBean> list, List<FinishBean> finishBeans) {
+        this.type = type;
+        this.list = list;
+        this.finishBeans = finishBeans;
+    }
 
     public TodoListBean(int type, List<TodoBean> list) {
         this.type = type;
@@ -38,5 +45,13 @@ public class TodoListBean extends BmobObject {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public List<FinishBean> getFinishBeans() {
+        return finishBeans;
+    }
+
+    public void setFinishBeans(List<FinishBean> finishBeans) {
+        this.finishBeans = finishBeans;
     }
 }

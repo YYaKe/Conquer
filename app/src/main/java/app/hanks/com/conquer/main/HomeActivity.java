@@ -13,7 +13,10 @@ import app.hanks.com.conquer.R;
 import app.hanks.com.conquer.activity.PostActivity;
 import app.hanks.com.conquer.adapter.HomeAdapter;
 import app.hanks.com.conquer.base.BaseActivity;
+import app.hanks.com.conquer.bean.FinishBean;
+import app.hanks.com.conquer.bean.TodoBean;
 import app.hanks.com.conquer.bean.TodoListBean;
+import app.hanks.com.conquer.config.Constants;
 import app.hanks.com.conquer.util.L;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.listener.FindListener;
@@ -32,8 +35,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private FloatingActionButton mFab;
 
     private HomeAdapter homeAdapter;
-
-    private int mCategory;
 
     @Override
     protected void initView() {
@@ -54,10 +55,18 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
+        homeAdapter.clear();
         findToDoList();
+        findFinishList();
+//        findList();
     }
 
-    private void findToDoList() {
+    @Override
+    public void onClick(View view) {
+        startActivity(new Intent(this, PostActivity.class));
+    }
+
+    private void findList() {
         BmobQuery<TodoListBean> query = new BmobQuery<>();
         //按照时间降序
         query.order("-createdAt");
@@ -66,8 +75,29 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
             @Override
             public void onSuccess(List<TodoListBean> todoListBeans) {
+                L.i("findList onSuccess");
+//                homeAdapter.addList(todoListBeans);
+            }
+
+            @Override
+            public void onError(int code, String arg0) {
+                L.i("findList onError");
+            }
+        });
+    }
+
+    private void findToDoList() {
+        BmobQuery<TodoBean> query = new BmobQuery<>();
+        //按照时间降序
+        query.order("-createdAt");
+        //执行查询，第一个参数为上下文，第二个参数为查找的回调
+        query.findObjects(this, new FindListener<TodoBean>() {
+
+            @Override
+            public void onSuccess(List<TodoBean> todoBeans) {
                 L.i("findToDoList onSuccess");
-                homeAdapter.addList(todoListBeans);
+                TodoListBean listBean = new TodoListBean(Constants.TO_DO, todoBeans, null);
+                homeAdapter.addList(listBean);
             }
 
             @Override
@@ -77,9 +107,25 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         });
     }
 
-    @Override
-    public void onClick(View view) {
-        startActivity(new Intent(this, PostActivity.class));
+    private void findFinishList() {
+        BmobQuery<FinishBean> query = new BmobQuery<>();
+        //按照时间降序
+        query.order("-createdAt");
+        //执行查询，第一个参数为上下文，第二个参数为查找的回调
+        query.findObjects(this, new FindListener<FinishBean>() {
+
+            @Override
+            public void onSuccess(List<FinishBean> finishBeans) {
+                L.i("findFinishList onSuccess");
+                TodoListBean listBean = new TodoListBean(Constants.FINISH, null, finishBeans);
+                homeAdapter.addList(listBean);
+            }
+
+            @Override
+            public void onError(int code, String arg0) {
+                L.i("findFinishList onError");
+            }
+        });
     }
 
 }

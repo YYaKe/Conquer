@@ -8,7 +8,7 @@ import cn.bmob.v3.BmobObject;
  * author：wiki on 2019/3/10
  * email：zhengweiqunemail@qq.com
  */
-public class TodoBean extends BmobObject {
+public class FinishBean extends BmobObject {
     /**
      * completeDate : null
      * completeDateStr :
@@ -45,10 +45,7 @@ public class TodoBean extends BmobObject {
     @SerializedName("priority")
     private int priority;
 
-    public TodoBean() {
-    }
-
-    public TodoBean(long completeDate, String completeDateStr, String content, long date, String dateStr, int id, int status, String title, int type, String userId, int priority) {
+    public FinishBean(long completeDate, String completeDateStr, String content, long date, String dateStr, int id, int status, String title, int type, String userId, int priority) {
         this.completeDate = completeDate;
         this.completeDateStr = completeDateStr;
         this.content = content;
@@ -61,6 +58,21 @@ public class TodoBean extends BmobObject {
         this.userId = userId;
         this.priority = priority;
     }
+
+    public FinishBean(FinishBean bean){
+        this.completeDate = bean.getCompleteDate();
+        this.completeDateStr = bean.completeDateStr;
+        this.content = bean.content;
+        this.date = bean.date;
+        this.dateStr = bean.dateStr;
+        this.id = bean.id;
+        this.status = bean.status;
+        this.title = bean.title;
+        this.type = bean.type;
+        this.userId = bean.userId;
+        this.priority = bean.priority;
+    }
+
 
     public int getPriority() {
         return priority;

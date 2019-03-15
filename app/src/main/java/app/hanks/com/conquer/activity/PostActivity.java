@@ -10,14 +10,11 @@ import android.widget.TextView;
 
 import com.xujiaji.happybubble.BubbleDialog;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import app.hanks.com.conquer.R;
 import app.hanks.com.conquer.base.BaseActivity;
 import app.hanks.com.conquer.bean.TodoBean;
-import app.hanks.com.conquer.bean.TodoListBean;
 import app.hanks.com.conquer.bean.User;
 import app.hanks.com.conquer.config.Constants;
 import app.hanks.com.conquer.helper.BubbleCreator;
@@ -86,10 +83,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                         0, tvDateTime.getText().toString(), 0, 1, "", toDoType,
                         BmobChatUser.getCurrentUser(this, User.class).getObjectId()
                         , priority);
-                List<TodoBean> beanList = new ArrayList<>(1);
-                beanList.add(bean);
-                TodoListBean todoListBean = new TodoListBean(1, beanList);
-                todoListBean.save(this, new SaveListener() {
+                bean.save(this, new SaveListener() {
                     @Override
                     public void onSuccess() {
                         L.i("post success");
@@ -103,6 +97,23 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                         T.show(PostActivity.this, "post failed");
                     }
                 });
+//                List<TodoBean> beanList = new ArrayList<>(1);
+//                beanList.add(bean);
+//                TodoListBean todoListBean = new TodoListBean(1, beanList);
+//                todoListBean.save(this, new SaveListener() {
+//                    @Override
+//                    public void onSuccess() {
+//                        L.i("post success");
+//                        T.show(PostActivity.this, "添加成功");
+//                        finish();
+//                    }
+//
+//                    @Override
+//                    public void onFailure(int i, String s) {
+//                        L.e("post failed");
+//                        T.show(PostActivity.this, "post failed");
+//                    }
+//                });
                 break;
         }
     }
