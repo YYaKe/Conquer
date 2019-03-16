@@ -75,6 +75,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
         final List<TodoBean> beanList = mList.get(position).getList();
         final List<FinishBean> finishBeans = mList.get(position).getFinishBeans();
+        //待做列表
         if (beanList != null) {
             for (int i = 0; i < beanList.size(); i++) {
                 L.i("beanList-size:" + beanList.size());
@@ -165,6 +166,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
                 holder.toDoLayout.addView(view);
             }
         }
+        //完成列表
         if (finishBeans != null) {
             for (int i = 0; i < finishBeans.size(); i++) {
                 L.i("finishBeans-size:" + finishBeans.size());
@@ -174,8 +176,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
                 ImageView priorityImg = (ImageView) view.findViewById(R.id.imgPriority);
                 RippleCheckBox checkBox = (RippleCheckBox) view.findViewById(R.id.rippleCheckBox);
                 contentTv.setText(finishBeans.get(i).getContent());
-                checkBox.setTag(R.id.tv_tag, i);
-                checkBox.setClickable(mList.get(position).getType() == Constants.TO_DO);
+                checkBox.setChecked(true);
+                checkBox.setClickable(false);
                 //动画效果，横线上移，文字alpha为0.3
                 line.animate()
                         .setDuration(400)

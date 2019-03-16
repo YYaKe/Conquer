@@ -1,6 +1,7 @@
 package app.hanks.com.conquer.main;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +27,7 @@ import cn.bmob.v3.listener.FindListener;
  * author：wiki on 2019/3/10
  * email：zhengweiqunemail@qq.com
  */
-public class HomeActivity extends BaseActivity implements View.OnClickListener {
+public class HomeActivity extends BaseActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     //---UIView--
     private SwipeRefreshLayout mRefresh;
@@ -46,7 +47,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         mFab = (FloatingActionButton) findViewById(R.id.fab);
 
         mFab.setOnClickListener(this);
-
+        mRefresh.setOnRefreshListener(this);
         homeAdapter = new HomeAdapter();
         recyclerView.setAdapter(homeAdapter);
 
@@ -58,7 +59,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         homeAdapter.clear();
         findToDoList();
         findFinishList();
-//        findList();
     }
 
     @Override
@@ -66,24 +66,18 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         startActivity(new Intent(this, PostActivity.class));
     }
 
-    private void findList() {
-        BmobQuery<TodoListBean> query = new BmobQuery<>();
-        //按照时间降序
-        query.order("-createdAt");
-        //执行查询，第一个参数为上下文，第二个参数为查找的回调
-        query.findObjects(this, new FindListener<TodoListBean>() {
-
+    @Override
+    public void onRefresh() {
+        if (mRefresh.isRefreshing())
+            onResume();
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onSuccess(List<TodoListBean> todoListBeans) {
-                L.i("findList onSuccess");
-//                homeAdapter.addList(todoListBeans);
+            public void run() {
+                if (mRefresh.isRefreshing()) {
+                    mRefresh.setRefreshing(false);
+                }
             }
-
-            @Override
-            public void onError(int code, String arg0) {
-                L.i("findList onError");
-            }
-        });
+        }, 1000);
     }
 
     private void findToDoList() {
