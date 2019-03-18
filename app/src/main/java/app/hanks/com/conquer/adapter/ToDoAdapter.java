@@ -32,14 +32,14 @@ import cn.bmob.v3.listener.SaveListener;
  * author：wiki on 2019/3/10
  * email：zhengweiqunemail@qq.com
  */
-public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
+public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
 
 
     private List<TodoListBean> mList;
     private Context context;
 
 
-    public HomeAdapter() {
+    public ToDoAdapter() {
         mList = new ArrayList<>();
     }
 

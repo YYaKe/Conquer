@@ -1,125 +1,132 @@
 package app.hanks.com.conquer.main;
 
-import android.content.Intent;
-import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.View;
-import android.widget.FrameLayout;
-
-import java.util.List;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import app.hanks.com.conquer.R;
-import app.hanks.com.conquer.activity.PostActivity;
-import app.hanks.com.conquer.adapter.HomeAdapter;
 import app.hanks.com.conquer.base.BaseActivity;
-import app.hanks.com.conquer.bean.FinishBean;
-import app.hanks.com.conquer.bean.TodoBean;
-import app.hanks.com.conquer.bean.TodoListBean;
-import app.hanks.com.conquer.config.Constants;
-import app.hanks.com.conquer.util.L;
-import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.listener.FindListener;
+import app.hanks.com.conquer.fragment.MenuFragment;
+import app.hanks.com.conquer.main.fragment.ToDoFragment;
+import app.hanks.com.conquer.util.PixelUtil;
+import app.hanks.com.conquer.view.materialmenu.MaterialMenuView;
 
 
 /**
  * author：wiki on 2019/3/10
  * email：zhengweiqunemail@qq.com
  */
-public class HomeActivity extends BaseActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
+    private static final int ANIM_DURATION_TOOLBAR = 300;
+    private ToDoFragment toDoFragment;
     //---UIView--
-    private SwipeRefreshLayout mRefresh;
-    private RecyclerView recyclerView;
-    private FrameLayout mFragmentContainerView;
-    private FloatingActionButton mFab;
-
-    private HomeAdapter homeAdapter;
+    private DrawerLayout drawerLayout;
+    private MaterialMenuView materialMenu;
+    private MenuFragment menuFragment;// 侧滑菜单Fragment
+    private ImageButton iv_sort;
+    private ImageButton iv_search;
+    private View toolbar;
+    private TextView mTitle;
 
     @Override
     protected void initView() {
         setContentView(R.layout.home);
-
-        mFragmentContainerView = (FrameLayout) findViewById(R.id.fragmentContainer);
-        recyclerView = (RecyclerView) findViewById(R.id.todoListView);
-        mRefresh = (SwipeRefreshLayout) findViewById(R.id.refresh);
-        mFab = (FloatingActionButton) findViewById(R.id.fab);
-
-        mFab.setOnClickListener(this);
-        mRefresh.setOnRefreshListener(this);
-        homeAdapter = new HomeAdapter();
-        recyclerView.setAdapter(homeAdapter);
-
+        toDoFragment = new ToDoFragment();
+//        materialMenu = (MaterialMenuView) findViewById(R.id.material_menu);
+//        toolbar = findViewById(R.id.title);
+//        mTitle = (TextView) findViewById(R.id.tv_title);
+//        iv_sort = (ImageButton) findViewById(R.id.iv_sort);
+//        iv_search = (ImageButton) findViewById(R.id.iv_search);
+//        iv_search.setVisibility(View.VISIBLE);
+//        iv_search.setOnClickListener(this);
+//        materialMenu.setOnClickListener(this);
+//        iv_sort.setOnClickListener(this);
+        initDrawerMenu();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        homeAdapter.clear();
-        findToDoList();
-        findFinishList();
+//        materialMenu.animateState(MaterialMenuDrawable.IconState.BURGER);
+        changeFramgnt(R.id.layout_content, toDoFragment);
     }
 
     @Override
     public void onClick(View view) {
-        startActivity(new Intent(this, PostActivity.class));
     }
 
-    @Override
-    public void onRefresh() {
-        if (mRefresh.isRefreshing())
-            onResume();
-        new Handler().postDelayed(new Runnable() {
+    /**
+     * 侧滑抽屉界面
+     */
+    private void initDrawerMenu() {
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);// 侧滑控件
+        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.LEFT);
+        drawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
-            public void run() {
-                if (mRefresh.isRefreshing()) {
-                    mRefresh.setRefreshing(false);
-                }
-            }
-        }, 1000);
-    }
-
-    private void findToDoList() {
-        BmobQuery<TodoBean> query = new BmobQuery<>();
-        //按照时间降序
-        query.order("-createdAt");
-        //执行查询，第一个参数为上下文，第二个参数为查找的回调
-        query.findObjects(this, new FindListener<TodoBean>() {
-
-            @Override
-            public void onSuccess(List<TodoBean> todoBeans) {
-                L.i("findToDoList onSuccess");
-                TodoListBean listBean = new TodoListBean(Constants.TO_DO, todoBeans, null);
-                homeAdapter.addList(listBean);
+            public void onDrawerStateChanged(int arg0) {
             }
 
             @Override
-            public void onError(int code, String arg0) {
-                L.i("findToDoList onError");
+            public void onDrawerSlide(View arg0, float arg1) {
+            }
+
+            @Override
+            public void onDrawerOpened(View arg0) {
+//                materialMenu.animatePressedState(MaterialMenuDrawable.IconState.X);
+            }
+
+            @Override
+            public void onDrawerClosed(View arg0) {
+
             }
         });
+
+        // 侧滑菜单
+        menuFragment = new MenuFragment();
+        changeFramgnt(R.id.left_drawer, menuFragment);
     }
 
-    private void findFinishList() {
-        BmobQuery<FinishBean> query = new BmobQuery<>();
-        //按照时间降序
-        query.order("-createdAt");
-        //执行查询，第一个参数为上下文，第二个参数为查找的回调
-        query.findObjects(this, new FindListener<FinishBean>() {
+    private void startIntroAnimation() {
+        int actionbarSize = PixelUtil.dp2px(57);
+        toolbar.setTranslationY(-actionbarSize);
+        mTitle.setTranslationY(-actionbarSize);
+        iv_sort.setTranslationY(-actionbarSize);
 
-            @Override
-            public void onSuccess(List<FinishBean> finishBeans) {
-                L.i("findFinishList onSuccess");
-                TodoListBean listBean = new TodoListBean(Constants.FINISH, null, finishBeans);
-                homeAdapter.addList(listBean);
-            }
+        toolbar.animate()
+                .translationY(0)
+                .setDuration(ANIM_DURATION_TOOLBAR)
+                .setStartDelay(300);
+        mTitle.animate()
+                .translationY(0)
+                .setDuration(ANIM_DURATION_TOOLBAR)
+                .setStartDelay(400);
+        iv_sort.animate()
+                .translationY(0)
+                .setDuration(ANIM_DURATION_TOOLBAR)
+                .setStartDelay(500)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+//                        changeFramgnt(R.id.layout_content, toDoFragment);
+                    }
+                })
+                .start();
+    }
 
-            @Override
-            public void onError(int code, String arg0) {
-                L.i("findFinishList onError");
-            }
-        });
+    /**
+     * 切换Fragment
+     *
+     * @param id       要切换的布局id
+     * @param fragment 要切换的Fragment
+     */
+    protected void changeFramgnt(int id, Fragment fragment) {
+        getSupportFragmentManager().beginTransaction().replace(id, fragment).commit();
     }
 
 }

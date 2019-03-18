@@ -1,43 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/rootContainer"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/confectionary">
+    android:fitsSystemWindows="true">
 
+    <!-- 主界面 -->
+    <include layout="@layout/layout_home"/>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/refresh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:clipChildren="false"-->
+        <!--android:clipToPadding="false"-->
+        <!--android:fitsSystemWindows="true">-->
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/todoListView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
+        <!--<LinearLayout-->
+            <!--android:id="@+id/layout_content"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_below="@+id/title"-->
+            <!--android:background="@color/main_bg"-->
+            <!--android:fitsSystemWindows="true"-->
+            <!--android:orientation="vertical" />-->
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+        <!--<ImageView-->
+            <!--android:id="@+id/iv_arraw"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_marginTop="-32dp"-->
+            <!--android:layout_marginEnd="16dp"-->
+            <!--android:layout_marginRight="16dp"-->
+            <!--android:src="@drawable/drag_circle"-->
+            <!--android:visibility="gone" />-->
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/spacing_smlarge"
-        android:clickable="true"
-        android:focusable="true"
-        app:backgroundTint="@android:color/white"
-        app:fabSize="normal"
-        app:rippleColor="@color/gray_40"
-        android:src="@drawable/vector_add" />
+        <!--<include-->
+            <!--android:id="@+id/title"-->
+            <!--layout="@layout/layout_title"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/title_height_with_shadow"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:layout_marginBottom="@dimen/title_shadow_height_3" />-->
 
+    <!--</RelativeLayout>-->
+
+    <!-- 滑动菜单 -->
     <FrameLayout
-        android:id="@+id/fragmentContainer"
+        android:id="@+id/left_drawer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"/>
+        android:layout_gravity="start"
+        android:clipToPadding="false"
+        android:fitsSystemWindows="true" />
 
-</android.support.design.widget.CoordinatorLayout>
+</android.support.v4.widget.DrawerLayout>
+
