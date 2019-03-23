@@ -8,6 +8,7 @@
     <attr name="dimensionValue" format="dimension"/>
     <attr name="stringValue" format="string"/>
     <attr name="referenceValue" format="reference"/>
+    <attr name="textValue" format="color"/>
 
     <declare-styleable name="RippleBackground">
         <attr name="rb_color" format="color"/>

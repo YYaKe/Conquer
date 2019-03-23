@@ -281,6 +281,7 @@
 
     <style name="SwitchTheme0" parent="@style/AppTheme">
         <item name="colorValue">@color/theme_0</item>
+        <item name="textValue">@color/text_black</item>
         <item name="floatValue">0.35</item>
         <item name="integerValue">33</item>
         <item name="booleanValue">true</item>
@@ -292,6 +293,7 @@
 
     <style name="SwitchTheme1" parent="@style/AppTheme">
         <item name="colorValue">@color/theme_1</item>
+        <item name="textValue">@color/text_white</item>
         <item name="floatValue">1.44</item>
         <item name="integerValue">55</item>
         <item name="booleanValue">false</item>
@@ -302,6 +304,7 @@
 
     <style name="SwitchTheme2" parent="@style/AppTheme">
         <item name="colorValue">@color/theme_2</item>
+        <item name="textValue">@color/text_white</item>
         <item name="floatValue">1.44</item>
         <item name="integerValue">55</item>
         <item name="booleanValue">false</item>
@@ -312,6 +315,7 @@
 
     <style name="SwitchTheme3" parent="@style/AppTheme">
         <item name="colorValue">@color/theme_3</item>
+        <item name="textValue">@color/text_white</item>
         <item name="floatValue">1.44</item>
         <item name="integerValue">55</item>
         <item name="booleanValue">false</item>

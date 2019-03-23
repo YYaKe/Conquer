@@ -86,5 +86,8 @@
     <string name="important_not_urgent">重要但不紧急</string>
     <string name="urgent_not_important">紧急但不重要</string>
     <string name="not_urgent_not_important">不紧急不重要</string>
+    <string name="normal_setting">常规设置</string>
+    <string name="theme_switch">主题切换</string>
+    <string name="remind_music">提醒音乐</string>
 
 </resources>

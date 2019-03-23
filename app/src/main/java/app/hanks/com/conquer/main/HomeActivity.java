@@ -26,12 +26,14 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private MenuFragment menuFragment;// 侧滑菜单Fragment
     private TextView mTitle;
     private TextView menu;
+    private View toolbar;
 
 
     @Override
     protected void initView() {
         setContentView(R.layout.home);
         toDoFragment = new ToDoFragment();
+        toolbar = findViewById(R.id.common_title);
         mTitle = (TextView) findViewById(R.id.common_center);
         menu = (TextView) findViewById(R.id.common_left);
         menu.setOnClickListener(this);
@@ -86,17 +88,22 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     private void startAnimation() {
         int actionbarSize = PixelUtil.dp2px(57);
+        toolbar.setTranslationY(-actionbarSize);
         mTitle.setTranslationY(-actionbarSize);
         menu.setTranslationY(-actionbarSize);
 
-        menu.animate()
+        toolbar.animate()
                 .translationY(0)
                 .setDuration(ANIM_DURATION_TOOLBAR)
                 .setStartDelay(300);
-        mTitle.animate()
+        menu.animate()
                 .translationY(0)
                 .setDuration(ANIM_DURATION_TOOLBAR)
                 .setStartDelay(400);
+        mTitle.animate()
+                .translationY(0)
+                .setDuration(ANIM_DURATION_TOOLBAR)
+                .setStartDelay(500);
     }
 
     /**
@@ -112,7 +119,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     /**
      * 切换侧滑菜单布局打开或关闭
      */
-    private void toggle() {
+    public void toggle() {
         if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
             drawerLayout.closeDrawer(Gravity.LEFT);
         } else {

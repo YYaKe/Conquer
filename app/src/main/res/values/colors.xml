@@ -16,7 +16,8 @@
     <color name="theme_1">#03A9F5</color>
     <color name="theme_2">#9C25B0</color>
     <color name="theme_3">#FF9800</color>
-
+    <color name="text_black">#000000</color>
+    <color name="text_white">#FFFFFF</color>
 
     <color name="bg_item_normal_state">#fff0f0f0</color>
     <color name="bg_item_normal_pressed_state">#ffe0e0e0</color>
