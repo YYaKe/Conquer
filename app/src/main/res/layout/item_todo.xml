@@ -19,18 +19,14 @@
 
     <TextView
         android:id="@id/text"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="70dp"
-        android:layout_marginLeft="70dp"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="#0f0f0f"
         app:layout_constraintBottom_toBottomOf="@id/rippleCheckBox"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/rippleCheckBox"
+        app:layout_constraintRight_toLeftOf="@id/type"
         app:layout_constraintTop_toTopOf="@id/rippleCheckBox" />
 
     <ImageView
@@ -55,5 +51,13 @@
         app:layout_constraintEnd_toEndOf="@id/text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text" />
+
+    <TextView
+        android:id="@id/type"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/rippleCheckBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/rippleCheckBox" />
 
 </android.support.constraint.ConstraintLayout>

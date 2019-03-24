@@ -19,6 +19,7 @@ import java.util.List;
 import app.hanks.com.conquer.R;
 import app.hanks.com.conquer.bean.FinishBean;
 import app.hanks.com.conquer.bean.ListType;
+import app.hanks.com.conquer.bean.ToDoTypeEnum;
 import app.hanks.com.conquer.bean.TodoBean;
 import app.hanks.com.conquer.bean.TodoListBean;
 import app.hanks.com.conquer.config.Constants;
@@ -78,13 +79,14 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
         //待做列表
         if (beanList != null) {
             for (int i = 0; i < beanList.size(); i++) {
-                L.i("beanList-size:" + beanList.size());
                 final View view = LayoutInflater.from(context).inflate(R.layout.item_todo, null);
                 final TextView contentTv = (TextView) view.findViewById(R.id.text);
                 final View line = view.findViewById(R.id.line);
+                final TextView typeTv = (TextView) view.findViewById(R.id.type);
                 ImageView priorityImg = (ImageView) view.findViewById(R.id.imgPriority);
                 RippleCheckBox checkBox = (RippleCheckBox) view.findViewById(R.id.rippleCheckBox);
                 contentTv.setText(beanList.get(i).getContent());
+                typeTv.setText(ToDoTypeEnum.getName(beanList.get(i).getType()));
                 checkBox.setTag(R.id.tv_tag, i);
                 checkBox.setClickable(mList.get(position).getType() == Constants.TO_DO);
                 final TodoBean todoBean = beanList.get(i);
@@ -173,9 +175,11 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
                 final View view = LayoutInflater.from(context).inflate(R.layout.item_todo, null);
                 final TextView contentTv = (TextView) view.findViewById(R.id.text);
                 final View line = view.findViewById(R.id.line);
+                final TextView typeTv = (TextView) view.findViewById(R.id.type);
                 ImageView priorityImg = (ImageView) view.findViewById(R.id.imgPriority);
                 RippleCheckBox checkBox = (RippleCheckBox) view.findViewById(R.id.rippleCheckBox);
                 contentTv.setText(finishBeans.get(i).getContent());
+                typeTv.setText(ToDoTypeEnum.getName(finishBeans.get(i).getType()));
                 checkBox.setChecked(true);
                 checkBox.setClickable(false);
                 //动画效果，横线上移，文字alpha为0.3
@@ -184,6 +188,10 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
                         .translationY(-(RippleCheckBoxUtil.dp2px(context, 12) + contentTv.getHeight() / 2))
                         .start();
                 contentTv.animate()
+                        .setDuration(400)
+                        .alpha(0.3F)
+                        .start();
+                typeTv.animate()
                         .setDuration(400)
                         .alpha(0.3F)
                         .start();
