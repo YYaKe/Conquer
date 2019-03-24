@@ -2,8 +2,6 @@ package app.hanks.com.conquer.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -84,7 +82,7 @@ public class MenuFragment extends BaseFragment implements OnClickListener {
                 A.goOtherActivity(context, MyHistoryActivity.class);
                 break;
             case R.id.ll_setting:
-                A.goOtherActivity(context, SettingActivity.class);
+                A.goOtherActivityFinish(context, SettingActivity.class);
                 break;
         }
         homeActivity.toggle();
@@ -109,18 +107,19 @@ public class MenuFragment extends BaseFragment implements OnClickListener {
     private void initUserData() {
         if (currentUser != null) {
 
-            if (TextUtils.isEmpty(currentUser.getAvatar()))
-                iv_home_bg.setBackgroundResource(R.drawable.logo);
-            else {
-                ImageLoader.getInstance().displayImage(currentUser.getAvatar(), iv_photo);
-                Log.i("imgaeloader", "getAvatar: " + currentUser.getAvatar());
-            }
+            ImageLoader.getInstance().displayImage(currentUser.getAvatar(), iv_photo);
 
-            if (TextUtils.isEmpty(currentUser.getHomeBg()))
-                iv_home_bg.setBackgroundResource(R.drawable.logo);
-            else {
-                iv_home_bg.setBackgroundResource(R.drawable.logo);
-            }
+//            if (TextUtils.isEmpty(currentUser.getAvatar()))
+//                iv_home_bg.setBackgroundResource(R.drawable.logo);
+//            else {
+//                Log.i("imgaeloader", "getAvatar: " + currentUser.getAvatar());
+//            }
+
+//            if (TextUtils.isEmpty(currentUser.getHomeBg()))
+//                iv_home_bg.setBackgroundResource(R.drawable.logo);
+//            else {
+//                iv_home_bg.setBackgroundResource(R.drawable.logo);
+//            }
             tv_nickname.setText(currentUser.getNick());
         }
     }

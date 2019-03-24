@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/home_bg"/>
+                android:background="?attr/colorValue" />
 
             <View
                 android:layout_width="match_parent"

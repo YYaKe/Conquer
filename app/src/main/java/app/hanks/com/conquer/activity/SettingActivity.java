@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import app.hanks.com.conquer.R;
 import app.hanks.com.conquer.base.BaseActivity;
+import app.hanks.com.conquer.main.HomeActivity;
 import app.hanks.com.conquer.util.A;
 import app.hanks.com.conquer.util.AlertDialogUtils;
 import app.hanks.com.conquer.util.AlertDialogUtils.OkCallBack;
@@ -72,6 +73,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.common_left:
+                A.goOtherActivity(this, HomeActivity.class);
                 finish();
                 break;
             case R.id.ll_alert_audio:
@@ -113,6 +115,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        A.goOtherActivity(this, HomeActivity.class);
     }
 
     /**

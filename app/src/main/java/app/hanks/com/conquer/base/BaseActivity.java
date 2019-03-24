@@ -31,7 +31,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * 设置主题
      */
-    private void initTheme() {
+    protected void initTheme() {
 
         int theme = (Integer) SP.get(context, "theme", 0);
         switch (theme) {
