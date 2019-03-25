@@ -39,7 +39,6 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
     private List<TodoListBean> mList;
     private Context context;
 
-
     public ToDoAdapter() {
         mList = new ArrayList<>();
     }

@@ -1,5 +1,6 @@
 package app.hanks.com.conquer.activity;
 
+import android.support.constraint.ConstraintLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -23,6 +24,7 @@ import app.hanks.com.conquer.util.T;
 import app.hanks.com.conquer.view.datetime.datepicker.DatePickerDialog;
 import app.hanks.com.conquer.view.datetime.timepicker.RadialPickerLayout;
 import app.hanks.com.conquer.view.datetime.timepicker.TimePickerDialog;
+import app.hanks.com.conquer.view.selector.SelectRemindCyclePopup;
 import cn.bmob.im.bean.BmobChatUser;
 import cn.bmob.v3.listener.SaveListener;
 
@@ -39,12 +41,16 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     private BubbleDialog mChoosePriorityDialog;
     private int priority = 0;
     private int toDoType = 0;
+    private int cycle;
+    private int ring;
     //---UIView
+    private ConstraintLayout layout;
     private EditText etInput;
     private TextView tvDateTime;
     private ImageView imgCalendar;
     private ImageView imgType;
     private ImageView imgPriority;
+    private TextView tv_repeat_value;
 
     @Override
     protected void initView() {
@@ -54,11 +60,14 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.btnTypeList).setOnClickListener(this);
         findViewById(R.id.btnPriority).setOnClickListener(this);
         findViewById(R.id.btnOk).setOnClickListener(this);
+        findViewById(R.id.repeat_rl).setOnClickListener(this);
+        layout = (ConstraintLayout) findViewById(R.id.rootContainer);
         etInput = (EditText) findViewById(R.id.etInput);
         tvDateTime = (TextView) findViewById(R.id.tvDateTime);
         imgType = (ImageView) findViewById(R.id.btnTypeList);
         imgPriority = (ImageView) findViewById(R.id.btnPriority);
         imgCalendar = (ImageView) findViewById(R.id.btnChooseCalendar);
+        tv_repeat_value = (TextView) findViewById(R.id.tv_repeat_value);
 
         initDatePicker();
     }
@@ -97,23 +106,9 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                         T.show(PostActivity.this, "post failed");
                     }
                 });
-//                List<TodoBean> beanList = new ArrayList<>(1);
-//                beanList.add(bean);
-//                TodoListBean todoListBean = new TodoListBean(1, beanList);
-//                todoListBean.save(this, new SaveListener() {
-//                    @Override
-//                    public void onSuccess() {
-//                        L.i("post success");
-//                        T.show(PostActivity.this, "添加成功");
-//                        finish();
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int i, String s) {
-//                        L.e("post failed");
-//                        T.show(PostActivity.this, "post failed");
-//                    }
-//                });
+                break;
+            case R.id.repeat_rl:
+                selectRemindCycle();
                 break;
         }
     }
@@ -163,7 +158,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         tvDateTime.setText(string);
     }
 
-    public void showChooseTodoCategory() {
+    private void showChooseTodoCategory() {
         if (mBubbleDialog == null) {
             View view = LayoutInflater.from(this).inflate(R.layout.layout_choose_category, null);
             mBubbleDialog = new BubbleDialog(this)
@@ -202,7 +197,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
             mBubbleDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
-    public void showChoosePriority() {
+    private void showChoosePriority() {
         if (mChoosePriorityDialog == null) {
             View view = LayoutInflater.from(this).inflate(R.layout.layout_choose_priority, null);
             mChoosePriorityDialog = new BubbleDialog(this)
@@ -243,5 +238,138 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
             mChoosePriorityDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
+    private void selectRemindCycle() {
+        final SelectRemindCyclePopup fp = new SelectRemindCyclePopup(this);
+        fp.showPopup(layout);
+        fp.setOnSelectRemindCyclePopupListener(new SelectRemindCyclePopup
+                .SelectRemindCyclePopupOnClickListener() {
+
+            @Override
+            public void obtainMessage(int flag, String ret) {
+                switch (flag) {
+                    // 星期一
+                    case 0:
+
+                        break;
+                    // 星期二
+                    case 1:
+
+                        break;
+                    // 星期三
+                    case 2:
+
+                        break;
+                    // 星期四
+                    case 3:
+
+                        break;
+                    // 星期五
+                    case 4:
+
+                        break;
+                    // 星期六
+                    case 5:
+
+                        break;
+                    // 星期日
+                    case 6:
+
+                        break;
+                    // 确定
+                    case 7:
+                        int repeat = Integer.valueOf(ret);
+                        tv_repeat_value.setText(parseRepeat(repeat, 0));
+                        cycle = repeat;
+                        fp.dismiss();
+                        break;
+                    case 8:
+                        tv_repeat_value.setText("每天");
+                        cycle = 0;
+                        fp.dismiss();
+                        break;
+                    case 9:
+                        tv_repeat_value.setText("只响一次");
+                        cycle = -1;
+                        fp.dismiss();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+
+    /**
+     * @param repeat 解析二进制闹钟周期
+     * @param flag   flag=0返回带有汉字的周一，周二cycle等，flag=1,返回weeks(1,2,3)
+     * @return
+     */
+    public static String parseRepeat(int repeat, int flag) {
+        String cycle = "";
+        String weeks = "";
+        if (repeat == 0) {
+            repeat = 127;
+        }
+        if (repeat % 2 == 1) {
+            cycle = "周一";
+            weeks = "1";
+        }
+        if (repeat % 4 >= 2) {
+            if ("".equals(cycle)) {
+                cycle = "周二";
+                weeks = "2";
+            } else {
+                cycle = cycle + "," + "周二";
+                weeks = weeks + "," + "2";
+            }
+        }
+        if (repeat % 8 >= 4) {
+            if ("".equals(cycle)) {
+                cycle = "周三";
+                weeks = "3";
+            } else {
+                cycle = cycle + "," + "周三";
+                weeks = weeks + "," + "3";
+            }
+        }
+        if (repeat % 16 >= 8) {
+            if ("".equals(cycle)) {
+                cycle = "周四";
+                weeks = "4";
+            } else {
+                cycle = cycle + "," + "周四";
+                weeks = weeks + "," + "4";
+            }
+        }
+        if (repeat % 32 >= 16) {
+            if ("".equals(cycle)) {
+                cycle = "周五";
+                weeks = "5";
+            } else {
+                cycle = cycle + "," + "周五";
+                weeks = weeks + "," + "5";
+            }
+        }
+        if (repeat % 64 >= 32) {
+            if ("".equals(cycle)) {
+                cycle = "周六";
+                weeks = "6";
+            } else {
+                cycle = cycle + "," + "周六";
+                weeks = weeks + "," + "6";
+            }
+        }
+        if (repeat / 64 == 1) {
+            if ("".equals(cycle)) {
+                cycle = "周日";
+                weeks = "7";
+            } else {
+                cycle = cycle + "," + "周日";
+                weeks = weeks + "," + "7";
+            }
+        }
+
+        return flag == 0 ? cycle : weeks;
+    }
 
 }

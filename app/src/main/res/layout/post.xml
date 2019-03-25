@@ -35,6 +35,43 @@
 
     </FrameLayout>
 
+    <RelativeLayout
+        android:id="@+id/repeat_rl"
+        style="@style/item_style"
+        app:layout_constraintTop_toBottomOf="@id/layoutTop">
+
+        <TextView
+            android:id="@+id/tv_repeat"
+            style="@style/item_text_style"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:text="@string/repeat" />
+
+        <ImageView
+            android:id="@+id/arrow_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_right" />
+
+        <TextView
+            android:id="@+id/tv_repeat_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toStartOf="@id/arrow_one"
+            android:layout_toLeftOf="@id/arrow_one"
+            android:textColor="@color/black_33"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
     <EditText
         android:id="@+id/etInput"
         android:layout_width="match_parent"
@@ -50,7 +87,7 @@
         android:paddingEnd="@dimen/spacing_middle2"
         android:singleLine="true"
         app:layout_constraintBottom_toTopOf="@id/linearLayout"
-        app:layout_constraintTop_toBottomOf="@+id/layoutTop" />
+        app:layout_constraintTop_toBottomOf="@+id/repeat_rl" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
