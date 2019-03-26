@@ -33,11 +33,21 @@
             android:padding="@dimen/dp_10"
             tools:text="2019/03/15" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="5dp"
+            android:background="@color/line_and_outline_grey" />
+
     </FrameLayout>
 
     <RelativeLayout
         android:id="@+id/repeat_rl"
         style="@style/item_style"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         app:layout_constraintTop_toBottomOf="@id/layoutTop">
 
         <TextView
@@ -45,6 +55,7 @@
             style="@style/item_text_style"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:text="@string/repeat" />
 
         <ImageView
@@ -70,7 +81,17 @@
             android:layout_toLeftOf="@id/arrow_one"
             android:textColor="@color/black_33"
             android:textSize="14sp" />
+
     </RelativeLayout>
+
+    <TextView
+        android:id="@id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/grey_200"
+        app:layout_constraintTop_toBottomOf="@id/repeat_rl" />
 
     <EditText
         android:id="@+id/etInput"
@@ -87,7 +108,7 @@
         android:paddingEnd="@dimen/spacing_middle2"
         android:singleLine="true"
         app:layout_constraintBottom_toTopOf="@id/linearLayout"
-        app:layout_constraintTop_toBottomOf="@+id/repeat_rl" />
+        app:layout_constraintTop_toBottomOf="@id/line" />
 
     <LinearLayout
         android:id="@+id/linearLayout"

@@ -8,12 +8,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.xujiaji.happybubble.BubbleDialog;
 
 import java.util.Calendar;
 
 import app.hanks.com.conquer.R;
+import app.hanks.com.conquer.alarm.AlarmManagerUtil;
 import app.hanks.com.conquer.base.BaseActivity;
 import app.hanks.com.conquer.bean.TodoBean;
 import app.hanks.com.conquer.bean.User;
@@ -43,6 +45,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     private int toDoType = 0;
     private int cycle;
     private int ring;
+    private String time;
     //---UIView
     private ConstraintLayout layout;
     private EditText etInput;
@@ -88,6 +91,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                 showChoosePriority();
                 break;
             case R.id.btnOk:
+                setClock();
                 TodoBean bean = new TodoBean(0, tvDateTime.getText().toString(), etInput.getText().toString(),
                         0, tvDateTime.getText().toString(), 0, 1, "", toDoType,
                         BmobChatUser.getCurrentUser(this, User.class).getObjectId()
@@ -122,7 +126,8 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
                 imgCalendar.setColorFilter(getResources().getColor(R.color.pink_200));
-                setTimeAndTip(tvDateTime.getText() + " " + pad(hourOfDay) + ":" + pad(minute));
+                time = pad(hourOfDay) + ":" + pad(minute);
+                setTimeAndTip(tvDateTime.getText() + " " + time);
             }
         }, mCalendar.get(Calendar.HOUR_OF_DAY), mCalendar.get(Calendar.MINUTE), true);
 
@@ -368,8 +373,30 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                 weeks = weeks + "," + "7";
             }
         }
-
         return flag == 0 ? cycle : weeks;
+    }
+
+    private void setClock() {
+        if (time != null && time.length() > 0) {
+            String[] times = time.split(":");
+            if (cycle == 0) {//是每天的闹钟
+                AlarmManagerUtil.setAlarm(this, 0, Integer.parseInt(times[0]), Integer.parseInt
+                        (times[1]), 0, 0, "闹钟响了", ring);
+            }
+            if (cycle == -1) {//是只响一次的闹钟
+                AlarmManagerUtil.setAlarm(this, 1, Integer.parseInt(times[0]), Integer.parseInt
+                        (times[1]), 0, 0, "闹钟响了", ring);
+            } else {//多选，周几的闹钟
+                String weeksStr = parseRepeat(cycle, 1);
+                String[] weeks = weeksStr.split(",");
+                for (int i = 0; i < weeks.length; i++) {
+                    AlarmManagerUtil.setAlarm(this, 2, Integer.parseInt(times[0]), Integer
+                            .parseInt(times[1]), i, Integer.parseInt(weeks[i]), "闹钟响了", ring);
+                }
+            }
+            Toast.makeText(this, "闹钟设置成功", Toast.LENGTH_LONG).show();
+        }
+
     }
 
 }
