@@ -40,6 +40,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
         backImg.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_back, 0, 0, 0);
         backImg.setOnClickListener(this);
 
+        findViewById(R.id.logout).setOnClickListener(this);
         toolbar = (RelativeLayout) findViewById(R.id.common_relative);
         titleTv = (TextView) findViewById(R.id.common_center);
         block_0 = (ImageButton) findViewById(R.id.block_0);
@@ -108,6 +109,10 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
                 break;
             case R.id.block_3:
                 setThemeBgColor(3);
+                break;
+            case R.id.logout://退出登录
+                startActivity(new Intent(this, LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                finish();
                 break;
         }
     }

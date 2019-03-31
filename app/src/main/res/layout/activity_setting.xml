@@ -282,6 +282,15 @@
                     </RelativeLayout>
                 </com.balysv.materialripple.MaterialRippleLayout>
 
+                <include layout="@layout/line" />
+
+                <TextView
+                    android:id="@id/logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:gravity="center"
+                    android:text="退出登录"
+                    android:textColor="@color/red_200" />
             </LinearLayout>
 
         </LinearLayout>

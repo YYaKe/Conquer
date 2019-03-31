@@ -28,4 +28,5 @@
     <item name="position" type="id" />
     <item name="item_id" type="id" />
     <item name="object_id" type="id" />
+    <item name="logout" type="id" />
 </resources>
