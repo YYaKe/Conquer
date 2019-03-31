@@ -35,11 +35,10 @@ public class CalendarUtils {
     private static String calanderEventURL;
     private static String calanderRemiderURL;
 
-    private static String CALENDARS_NAME = "test";
+    private static String CALENDARS_NAME = "zwq";
     private static String CALENDARS_ACCOUNT_NAME = "863952218@qq.com";
     private static String CALENDARS_ACCOUNT_TYPE = "com.android.exchange";
-    private static String CALENDARS_DISPLAY_NAME = "test";
-    private static long _eventId;
+    private static String CALENDARS_DISPLAY_NAME = "zwq";
 
     /**
      * 初始化uri
@@ -212,10 +211,10 @@ public class CalendarUtils {
      */
     private static Uri insertCalendarEvent(Context context, long calendar_id, String title, String description, long begintime, long endtime) {
         ContentValues event = new ContentValues();
-        event.put("title", title);
-        event.put("description", description);
+        event.put(CalendarContract.Events.TITLE, title);
+        event.put(CalendarContract.Events.DESCRIPTION, description);
         // 插入账户的id
-        event.put("calendar_id", calendar_id);
+        event.put(CalendarContract.Events.CALENDAR_ID, calendar_id);
         event.put(CalendarContract.Events.DTSTART, begintime);//必须有
         event.put(CalendarContract.Events.DTEND, endtime);//非重复事件：必须有
         event.put(CalendarContract.Events.HAS_ALARM, 1);//设置有闹钟提醒

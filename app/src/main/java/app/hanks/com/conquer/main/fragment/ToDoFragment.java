@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import java.util.List;
@@ -13,19 +14,22 @@ import app.hanks.com.conquer.R;
 import app.hanks.com.conquer.activity.PostActivity;
 import app.hanks.com.conquer.adapter.ToDoAdapter;
 import app.hanks.com.conquer.base.BaseFragment;
+import app.hanks.com.conquer.base.OnItemClickListener;
 import app.hanks.com.conquer.bean.FinishBean;
 import app.hanks.com.conquer.bean.TodoBean;
 import app.hanks.com.conquer.bean.TodoListBean;
 import app.hanks.com.conquer.config.Constants;
 import app.hanks.com.conquer.util.L;
+import app.hanks.com.conquer.util.T;
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.listener.DeleteListener;
 import cn.bmob.v3.listener.FindListener;
 
 /**
  * author：wiki on 2019/3/16
  * email：zhengweiqunemail@qq.com
  */
-public class ToDoFragment extends BaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class ToDoFragment extends BaseFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, OnItemClickListener {
 
     private SwipeRefreshLayout mRefresh;
     private RecyclerView recyclerView;
@@ -47,6 +51,7 @@ public class ToDoFragment extends BaseFragment implements View.OnClickListener, 
         mFab.setOnClickListener(this);
         mRefresh.setOnRefreshListener(this);
         toDoAdapter = new ToDoAdapter();
+        toDoAdapter.setOnItemClickListener(this);
         recyclerView.setAdapter(toDoAdapter);
     }
 
@@ -119,6 +124,25 @@ public class ToDoFragment extends BaseFragment implements View.OnClickListener, 
             @Override
             public void onError(int code, String arg0) {
                 L.i("findFinishList onError");
+            }
+        });
+    }
+
+    @Override
+    public void onItemClick(View view, final int position) {
+        String objectID = (String) view.getTag(R.id.object_id);
+        TodoBean todoBean = new TodoBean();
+        todoBean.delete(getActivity(), objectID, new DeleteListener() {
+            @Override
+            public void onSuccess() {
+                Log.i("--delete", "删除成功");
+                T.show(getActivity(), "删除成功");
+                onResume();
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                Log.i("--delete", "删除失败");
             }
         });
     }

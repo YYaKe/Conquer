@@ -25,4 +25,7 @@
     <item name="text" type="id" />
     <item name="imgPriority" type="id" />
     <item name="type" type="id" />
+    <item name="position" type="id" />
+    <item name="item_id" type="id" />
+    <item name="object_id" type="id" />
 </resources>

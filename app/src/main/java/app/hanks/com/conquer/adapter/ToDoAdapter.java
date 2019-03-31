@@ -1,6 +1,7 @@
 package app.hanks.com.conquer.adapter;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.hanks.com.conquer.R;
+import app.hanks.com.conquer.base.OnItemClickListener;
 import app.hanks.com.conquer.bean.FinishBean;
 import app.hanks.com.conquer.bean.ListType;
 import app.hanks.com.conquer.bean.ToDoTypeEnum;
@@ -33,9 +35,9 @@ import cn.bmob.v3.listener.SaveListener;
  * author：wiki on 2019/3/10
  * email：zhengweiqunemail@qq.com
  */
-public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
+public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> implements View.OnClickListener {
 
-
+    private OnItemClickListener onItemClickListener;
     private List<TodoListBean> mList;
     private Context context;
 
@@ -82,6 +84,17 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
                 final TextView contentTv = (TextView) view.findViewById(R.id.text);
                 final View line = view.findViewById(R.id.line);
                 final TextView typeTv = (TextView) view.findViewById(R.id.type);
+                ConstraintLayout item = (ConstraintLayout) view.findViewById(R.id.item_id);
+                item.setTag(R.id.position, position);
+                item.setTag(R.id.object_id, beanList.get(i).getObjectId());
+                item.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (onItemClickListener != null) {
+                            onItemClickListener.onItemClick(view, (Integer) view.getTag(R.id.position));
+                        }
+                    }
+                });
                 ImageView priorityImg = (ImageView) view.findViewById(R.id.imgPriority);
                 RippleCheckBox checkBox = (RippleCheckBox) view.findViewById(R.id.rippleCheckBox);
                 contentTv.setText(beanList.get(i).getContent());
@@ -221,6 +234,12 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
         return mList.size();
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+        }
+    }
+
     public void addList(TodoListBean listBeans) {
         this.mList.add(listBeans);
         notifyDataSetChanged();
@@ -253,4 +272,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
         });
     }
 
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
 }

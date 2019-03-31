@@ -77,4 +77,6 @@ public class Constants {
     public static final int TO_DO = 1;//进行中
     public static final int FINISH = 0;//完成
 
+    public static final String APPLICATION_NAME = "ToDo";
+
 }

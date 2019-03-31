@@ -89,6 +89,7 @@
     <string name="normal_setting">常规设置</string>
     <string name="theme_switch">主题切换</string>
     <string name="remind_music">提醒音乐</string>
+    <string name="none_info">暂无信息</string>
 
     <string name="mon">周一</string>
     <string name="tue">周二</string>

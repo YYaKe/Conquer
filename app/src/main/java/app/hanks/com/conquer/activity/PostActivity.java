@@ -46,6 +46,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     private int cycle;
     private int ring;
     private String time;
+    private long beginTime;
     //---UIView
     private ConstraintLayout layout;
     private EditText etInput;
@@ -95,7 +96,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
             case R.id.btnOk:
                 setClock();
                 TodoBean bean = new TodoBean(0, tvDateTime.getText().toString(), etInput.getText().toString(),
-                        0, tvDateTime.getText().toString(), 0, 1, "", toDoType,
+                        beginTime, tvDateTime.getText().toString(), 0, 1, "", toDoType,
                         BmobChatUser.getCurrentUser(this, User.class).getObjectId()
                         , priority);
                 bean.save(this, new SaveListener() {
@@ -385,21 +386,15 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     private void setClock() {
         if (time != null && time.length() > 0) {
             String[] times = time.split(":");
-            CalendarUtils.addEvent(PostActivity.this,
+            beginTime = CalendarUtils.remindTimeCalculator(
                     (int) btnOK.getTag(R.id.year),
-                    (int) btnOK.getTag(R.id.month),
-                    (int) btnOK.getTag(R.id.day),
-                    Integer.valueOf(times[0]),
-                    Integer.valueOf(times[1]));
-            long beginTime = CalendarUtils.remindTimeCalculator(
-                    (int) btnOK.getTag(R.id.year),
-                    (int) btnOK.getTag(R.id.month)+1,
+                    (int) btnOK.getTag(R.id.month) + 1,
                     (int) btnOK.getTag(R.id.day),
                     Integer.valueOf(times[0]),
                     Integer.valueOf(times[1]));
             ;
-            CalendarUtils.addCalendarEventRemind(this, "ToDo", etInput.getText().toString(),
-                    beginTime, beginTime + 1000, 30, new CalendarUtils.onCalendarRemindListener() {
+            CalendarUtils.addCalendarEventRemind(this, Constants.APPLICATION_NAME, etInput.getText().toString(),
+                    beginTime, beginTime, 30, new CalendarUtils.onCalendarRemindListener() {
                         @Override
                         public void onFailed(Status error_code) {
                             Toast.makeText(PostActivity.this, "提醒设置失败", Toast.LENGTH_LONG).show();
