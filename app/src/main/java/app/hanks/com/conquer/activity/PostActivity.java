@@ -15,12 +15,12 @@ import com.xujiaji.happybubble.BubbleDialog;
 import java.util.Calendar;
 
 import app.hanks.com.conquer.R;
-import app.hanks.com.conquer.alarm.AlarmManagerUtil;
 import app.hanks.com.conquer.base.BaseActivity;
 import app.hanks.com.conquer.bean.TodoBean;
 import app.hanks.com.conquer.bean.User;
 import app.hanks.com.conquer.config.Constants;
 import app.hanks.com.conquer.helper.BubbleCreator;
+import app.hanks.com.conquer.util.CalendarUtils;
 import app.hanks.com.conquer.util.L;
 import app.hanks.com.conquer.util.T;
 import app.hanks.com.conquer.view.datetime.datepicker.DatePickerDialog;
@@ -50,10 +50,11 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     private ConstraintLayout layout;
     private EditText etInput;
     private TextView tvDateTime;
+    private TextView tv_repeat_value;
     private ImageView imgCalendar;
     private ImageView imgType;
     private ImageView imgPriority;
-    private TextView tv_repeat_value;
+    private ImageView btnOK;
 
     @Override
     protected void initView() {
@@ -71,6 +72,7 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         imgPriority = (ImageView) findViewById(R.id.btnPriority);
         imgCalendar = (ImageView) findViewById(R.id.btnChooseCalendar);
         tv_repeat_value = (TextView) findViewById(R.id.tv_repeat_value);
+        btnOK = (ImageView) findViewById(R.id.btnOk);
 
         initDatePicker();
     }
@@ -135,6 +137,10 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
             public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
                 Calendar c = Calendar.getInstance();
                 c.set(year, month, day);
+                btnOK.setTag(R.id.year, year);
+                btnOK.setTag(R.id.month, month);
+                btnOK.setTag(R.id.day, day);
+
                 tvDateTime.setText(new StringBuilder().append(pad(year)).append("/").append(pad(month + 1))
                         .append("/").append(pad(day)));
                 timePickerDialog24h.show(getFragmentManager(), "");
@@ -379,22 +385,48 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     private void setClock() {
         if (time != null && time.length() > 0) {
             String[] times = time.split(":");
-            if (cycle == 0) {//是每天的闹钟
-                AlarmManagerUtil.setAlarm(this, 0, Integer.parseInt(times[0]), Integer.parseInt
-                        (times[1]), 0, 0, "闹钟响了", ring);
-            }
-            if (cycle == -1) {//是只响一次的闹钟
-                AlarmManagerUtil.setAlarm(this, 1, Integer.parseInt(times[0]), Integer.parseInt
-                        (times[1]), 0, 0, "闹钟响了", ring);
-            } else {//多选，周几的闹钟
-                String weeksStr = parseRepeat(cycle, 1);
-                String[] weeks = weeksStr.split(",");
-                for (int i = 0; i < weeks.length; i++) {
-                    AlarmManagerUtil.setAlarm(this, 2, Integer.parseInt(times[0]), Integer
-                            .parseInt(times[1]), i, Integer.parseInt(weeks[i]), "闹钟响了", ring);
-                }
-            }
-            Toast.makeText(this, "闹钟设置成功", Toast.LENGTH_LONG).show();
+            CalendarUtils.addEvent(PostActivity.this,
+                    (int) btnOK.getTag(R.id.year),
+                    (int) btnOK.getTag(R.id.month),
+                    (int) btnOK.getTag(R.id.day),
+                    Integer.valueOf(times[0]),
+                    Integer.valueOf(times[1]));
+            long beginTime = CalendarUtils.remindTimeCalculator(
+                    (int) btnOK.getTag(R.id.year),
+                    (int) btnOK.getTag(R.id.month)+1,
+                    (int) btnOK.getTag(R.id.day),
+                    Integer.valueOf(times[0]),
+                    Integer.valueOf(times[1]));
+            ;
+            CalendarUtils.addCalendarEventRemind(this, "ToDo", etInput.getText().toString(),
+                    beginTime, beginTime + 1000, 30, new CalendarUtils.onCalendarRemindListener() {
+                        @Override
+                        public void onFailed(Status error_code) {
+                            Toast.makeText(PostActivity.this, "提醒设置失败", Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void onSuccess() {
+                            Toast.makeText(PostActivity.this, "提醒设置成功", Toast.LENGTH_LONG).show();
+                        }
+                    });
+//
+//            if (cycle == 0) {//是每天的闹钟
+//                AlarmManagerUtil.setAlarm(this, 0, Integer.parseInt(times[0]), Integer.parseInt
+//                        (times[1]), 0, 0, "闹钟响了", ring);
+//            }
+//            if (cycle == -1) {//是只响一次的闹钟
+//                AlarmManagerUtil.setAlarm(this, 1, Integer.parseInt(times[0]), Integer.parseInt
+//                        (times[1]), 0, 0, "闹钟响了", ring);
+//            } else {//多选，周几的闹钟
+//                String weeksStr = parseRepeat(cycle, 1);
+//                String[] weeks = weeksStr.split(",");
+//                for (int i = 0; i < weeks.length; i++) {
+//                    AlarmManagerUtil.setAlarm(this, 2, Integer.parseInt(times[0]), Integer
+//                            .parseInt(times[1]), i, Integer.parseInt(weeks[i]), "闹钟响了", ring);
+//                }
+//            }
+//            Toast.makeText(this, "闹钟设置成功", Toast.LENGTH_LONG).show();
         }
 
     }

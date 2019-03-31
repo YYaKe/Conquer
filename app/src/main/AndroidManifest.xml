@@ -42,11 +42,14 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ol" />
+    <!--Calendar-->
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
 
     <!-- Push SDK权限 -->
     <permission
         android:name="cn.bmob.permission.push"
-        android:protectionLevel="normal"></permission>
+        android:protectionLevel="normal" />
 
     <application
         android:name=".CustomApplication"
