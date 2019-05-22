@@ -51,7 +51,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
     private ConstraintLayout layout;
     private EditText etInput;
     private TextView tvDateTime;
-    private TextView tv_repeat_value;
     private ImageView imgCalendar;
     private ImageView imgType;
     private ImageView imgPriority;
@@ -65,14 +64,12 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.btnTypeList).setOnClickListener(this);
         findViewById(R.id.btnPriority).setOnClickListener(this);
         findViewById(R.id.btnOk).setOnClickListener(this);
-        findViewById(R.id.repeat_rl).setOnClickListener(this);
         layout = (ConstraintLayout) findViewById(R.id.rootContainer);
         etInput = (EditText) findViewById(R.id.etInput);
         tvDateTime = (TextView) findViewById(R.id.tvDateTime);
         imgType = (ImageView) findViewById(R.id.btnTypeList);
         imgPriority = (ImageView) findViewById(R.id.btnPriority);
         imgCalendar = (ImageView) findViewById(R.id.btnChooseCalendar);
-        tv_repeat_value = (TextView) findViewById(R.id.tv_repeat_value);
         btnOK = (ImageView) findViewById(R.id.btnOk);
 
         initDatePicker();
@@ -113,9 +110,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
                         T.show(PostActivity.this, "post failed");
                     }
                 });
-                break;
-            case R.id.repeat_rl:
-                selectRemindCycle();
                 break;
         }
     }
@@ -248,67 +242,6 @@ public class PostActivity extends BaseActivity implements View.OnClickListener {
 
         if (mChoosePriorityDialog.getWindow() != null)
             mChoosePriorityDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-    }
-
-    private void selectRemindCycle() {
-        final SelectRemindCyclePopup fp = new SelectRemindCyclePopup(this);
-        fp.showPopup(layout);
-        fp.setOnSelectRemindCyclePopupListener(new SelectRemindCyclePopup
-                .SelectRemindCyclePopupOnClickListener() {
-
-            @Override
-            public void obtainMessage(int flag, String ret) {
-                switch (flag) {
-                    // 星期一
-                    case 0:
-
-                        break;
-                    // 星期二
-                    case 1:
-
-                        break;
-                    // 星期三
-                    case 2:
-
-                        break;
-                    // 星期四
-                    case 3:
-
-                        break;
-                    // 星期五
-                    case 4:
-
-                        break;
-                    // 星期六
-                    case 5:
-
-                        break;
-                    // 星期日
-                    case 6:
-
-                        break;
-                    // 确定
-                    case 7:
-                        int repeat = Integer.valueOf(ret);
-                        tv_repeat_value.setText(parseRepeat(repeat, 0));
-                        cycle = repeat;
-                        fp.dismiss();
-                        break;
-                    case 8:
-                        tv_repeat_value.setText("每天");
-                        cycle = 0;
-                        fp.dismiss();
-                        break;
-                    case 9:
-                        tv_repeat_value.setText("只响一次");
-                        cycle = -1;
-                        fp.dismiss();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
     }
 
     /**
