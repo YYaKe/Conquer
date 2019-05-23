@@ -12,12 +12,10 @@
     android:overScrollMode="never"
     android:scrollbars="none">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -98,9 +96,9 @@
             android:layout_marginTop="16dp">
 
             <LinearLayout
-
                 android:id="@+id/ll_all_zixi"
-                style="@style/Menu_ll">
+                style="@style/Menu_ll"
+                android:visibility="gone">
 
                 <ImageView
                     style="@style/Menu_iv"
@@ -118,7 +116,8 @@
 
             <LinearLayout
                 android:id="@+id/ll_history"
-                style="@style/Menu_ll">
+                style="@style/Menu_ll"
+                android:visibility="gone">
 
                 <ImageView
                     style="@style/Menu_iv"
@@ -136,7 +135,8 @@
 
             <LinearLayout
                 android:id="@+id/ll_friend"
-                style="@style/Menu_ll">
+                style="@style/Menu_ll"
+                android:visibility="gone">
 
                 <ImageView
                     style="@style/Menu_iv"
@@ -148,10 +148,10 @@
             </LinearLayout>
         </com.balysv.materialripple.MaterialRippleLayout>
 
-        <include
-            layout="@layout/line"
-            android:layout_width="match_parent"
-            android:layout_height="1dp" />
+        <!--<include-->
+        <!--layout="@layout/line"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp" />-->
 
         <com.balysv.materialripple.MaterialRippleLayout
             android:layout_width="match_parent"

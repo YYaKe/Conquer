@@ -90,13 +90,13 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
                 checkVersion();
                 break;
             case R.id.ll_about:
-                A.goOtherActivity(context, new Intent(context, AboutActivity.class).putExtra("type", "about"));
+                A.goOtherActivity(context, new Intent(context, SoftActivity.class).putExtra("type", "about"));
                 break;
             case R.id.ll_use:
-                A.goOtherActivity(context, new Intent(context, AboutActivity.class).putExtra("type", "use"));
+                A.goOtherActivity(context, new Intent(context, SoftActivity.class).putExtra("type", "use"));
                 break;
             case R.id.ll_help:
-                A.goOtherActivity(context, new Intent(context, AboutActivity.class).putExtra("type", "help"));
+                A.goOtherActivity(context, new Intent(context, SoftActivity.class).putExtra("type", "help"));
                 break;
             case R.id.block_0:
                 setThemeBgColor(0);
@@ -180,7 +180,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
      * 检查版本
      */
     private void checkVersion() {
-        AlertDialogUtils.show(context, "版本更新", "当前版本：" + CommonUtils.getVersionName(context), "立即更新", "以后再说", new OkCallBack() {
+        AlertDialogUtils.show(context, "版本更新", "当前已是最新版本：" + CommonUtils.getVersionName(context), "确定", null, new OkCallBack() {
             @Override
             public void onOkClick(DialogInterface dialog, int which) {
                 update();

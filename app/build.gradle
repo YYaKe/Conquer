@@ -107,6 +107,6 @@ dependencies {
 //    aspectPath("org.robobinding:robobinding:0.8.9:with-aop-and-dependencies") {
 //        exclude group: 'com.google.guava', module: 'guava'
 //    }
-    annotationProcessor "org.robobinding:codegen:0.8.9"
+//    annotationProcessor "org.robobinding:codegen:0.8.9"
     androidTestImplementation 'com.jayway.android.robotium:robotium-solo:5.2.1'
 }

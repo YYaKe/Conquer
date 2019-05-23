@@ -24,6 +24,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="220dp"
+            android:background="@color/blue_400"
             android:orientation="vertical">
 
             <TextView
@@ -45,6 +46,12 @@
                 android:layout_marginTop="8dp"
                 android:background="#88ffffff"
                 android:scaleX="0" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/logo" />
 
         </LinearLayout>
 
@@ -80,9 +87,8 @@
                 android:onClick="qqLogin"
                 android:text="@string/login_qq" />
 
-
         </LinearLayout>
-    </LinearLayout>
 
+    </LinearLayout>
 
 </RelativeLayout>

@@ -140,6 +140,7 @@
             android:name=".main.HomeActivity"
             android:launchMode="singleTask" />
         <activity android:name=".activity.PostActivity" />
+        <activity android:name=".activity.SoftActivity" />
 
         <!-- baidu map -->
         <meta-data
